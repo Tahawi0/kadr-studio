@@ -133,7 +133,7 @@ def nav(lang, page):
     other = ("en/" if lang == "ar" else "../") + page
     items = [("index.html", T(lang, "الرئيسية", "Home")), ("creative.html", T(lang, "كرييتيف", "Creative")),
              ("growth.html", T(lang, "جروث", "Growth")), ("tech.html", T(lang, "تِك", "Tech")),
-             ("free-sample.html", T(lang, "صورة مجانية", "Free photo"))]
+             ("free-sample.html", T(lang, "صورة مجانية", "Free photo")), ("index.html#tools", T(lang, "أدوات مجانية", "Free tools"))]
     links = "".join(f'<a href="{h}"{" class=\"hl\"" if h=="free-sample.html" else ""}{" aria-current=\"page\"" if h==page else ""}>{l}</a>' for h, l in items)
     return f"""<header class="nav">
   <a href="index.html" class="logo" aria-label="Kadr Studio"><span class="mark"><i></i><i></i><i></i><i></i>K</span><span class="word">KADR<small>{T(lang,'استوديو','studio')}</small></span></a>
@@ -188,10 +188,10 @@ def svc_rows(lang, key):
 def home(lang):
     p = "" if lang == "ar" else "../"
     sheet = [("lumaa-reception.webp", "Lumaa"), ("darb-hero.webp", "Darb Motors"), ("drape-look02.webp", "Drapé Atelier"),
-             ("noby-fire1.webp", "NOBY Sports"), ("taqa-site-m.webp", "Taqa"), ("dune-set.webp", "Dune & Dew")]
+             ("nafha-post1.webp", "Nafha"), ("taqa-site-m.webp", "Taqa"), ("dune-set.webp", "Dune & Dew")]
     sheet_html = "".join(frame(s, a, f"s{i}", lang) for i, (s, a) in enumerate(sheet))
     pill_imgs = {"creative": ["lumaa-reception.webp", "nafha-post1.webp", "drape-look04.webp"],
-                 "growth": ["noby-fire2.webp", "darb-poster.webp", "nafha-poster.webp"],
+                 "growth": ["darbc-feed1_a.webp", "darb-poster.webp", "nafha-poster.webp"],
                  "tech": ["lumaa-sys-d.webp", "taqa-cart.webp", "darb-site-m.webp"]}
     pillars = ""
     for i, pl in enumerate(PILLARS):
@@ -231,6 +231,7 @@ def home(lang):
   <p class="reveal"><b>{T(lang,'جرّبنا ببلاش:','Try us free:')}</b> {T(lang,'ابعت صورة منتج واحدة من الموبايل، وخدها صورة احترافية خلال ٤٨ ساعة.','send one phone photo of a product and get a professional shot within 48 hours.')}</p>
   <a class="btn solid light reveal" href="free-sample.html">{T(lang,'تفاصيل العرض','See the offer')} <span class="arr">{T(lang,'←','→')}</span></a>
 </div></section>
+""" + tools_section(lang) + f"""
 <section id="pillars" class="pillars">{pillars}</section>
 """ + sector_cards(lang) + f"""
 <section class="estimator wrap" id="estimate">
@@ -283,14 +284,10 @@ def creative(lang):
            "براند أزياء محتشمة من الصفر: الاسم، ونظام اللوجو، وألوان ترابية بلمسة نبيتي، و١٠ لوكات حملة من صور موبايل للقطع على الشماعة، من غير سيشن تصوير.",
            "A modest-fashion label from zero: name, logo system, earthy palette with a wine accent, and 10 campaign looks made from phone photos of the pieces on hangers, with no photoshoot.",
            imgs(lang, ["drape-look02.webp","drape-before.webp","drape-look04.webp","drape-logos.webp","drape-post08.webp","drape-detail.webp"], "g-3")) + \
-      case(lang, "NOBY Sports", "إعادة براندينج · حملة إطلاق", "Rebrand · Launch campaign",
-           "محل ملابس رياضية اتعمله هوية الأسد وستايل حملة سينمائي داكن، وتصميمات إطلاق جاهزة للفيد والستوري.",
-           "A sportswear store relaunched with a lion identity, a dark cinematic campaign style, and launch creatives for feed and stories.",
-           imgs(lang, ["noby-banner.webp","noby-fire1.webp","noby-fire2.webp","noby-fire3.webp"], "g-noby"), dark=True) + \
       case(lang, "نَفحة Nafha", "هوية · بوستات · فيديو إعلاني", "Identity · Posts · Video ad",
            "عطر عود خليجي: لوجو بالخط العربي، وصور منتج فاخرة، و٤ بوستات إطلاق، وريل بتعليق صوتي خليجي وموسيقى أصلية.",
            "A Gulf oud perfume: Arabic calligraphic logo, luxury product shots, 4 launch posts, and a reel with Gulf voiceover and original music.",
-           imgs(lang, ["nafha-post1.webp","nafha-post2.webp","nafha-post3.webp","nafha-post4.webp"], "g-4"), note=spec) + \
+           imgs(lang, ["nafha-post1.webp","nafha-post2.webp","nafha-post3.webp","nafha-post4.webp"], "g-4"), dark=True, note=spec) + \
       case(lang, "Dune & Dew", "صور منتجات · تجميل", "Product photography · Skincare",
            "خط عناية بالبشرة اتصوّر بالكامل بالذكاء الاصطناعي: استوديو، ورمال، وأبيض نقي، بنفس العبوة والليبل في كل لقطة.",
            "A skincare line shot entirely with AI: studio, sand and pure white, with the same bottle and label in every frame.",
@@ -315,7 +312,7 @@ def growth(lang):
     return page_head(lang, "growth", "إعلانات بتجيب<br>رسايل وطلبات.", "Ads that bring<br>messages and orders.",
         "ندير حملاتك على ميتا وتيك توك وجوجل، من الفكرة والتصميم للاختبار والتقرير.",
         "We run your campaigns on Meta, TikTok and Google, from idea and creative to testing and reporting.",
-        "noby-fire2.webp", "growth.html") + f"""
+        "darbc-feed1_a.webp", "growth.html") + f"""
 <section class="method p-growth"><div class="wrap"><h2 class="reveal">{T(lang,'إزاي بنشغّل الحملة','How we run a campaign')}</h2><ol class="steps light">{ph}</ol></div></section>
 <section class="wrap block"><h2 class="reveal">{T(lang,'بنتابع إيه','What we track')}</h2><ul class="metrics">{mt}</ul></section>
 <section class="cases">""" + \
@@ -325,9 +322,9 @@ def growth(lang):
            imgs(lang, ["darbc-strategy.webp","darbc-feed1_a.webp","darbc-feed1_b.webp","darbc-audiences.webp","darbc-feed2.webp","darbc-feed3.webp","darbc-mediaplan.webp","darbc-story1.webp","darbc-story2.webp","darbc-story3.webp","darbc-feed4.webp"], "g-camp"),
            note=("حملة مفاهيمية — الأرقام فرضيات تخطيط مش نتايج.", "Concept campaign — figures are planning assumptions, not results.")) + \
       case(lang, T(lang,"تصميمات إعلانية","Ad creatives"), "فيد · ستوري · ريلز", "Feed · Stories · Reels",
-           "نماذج من تصميماتنا الإعلانية: حملة NOBY الداكنة، وريلز نفحة ودرب. كل حملة بنطلقها بأكتر من زاوية ونسيب الأرقام تختار.",
-           "Samples of our ad creative: the dark NOBY campaign and the Nafha and Darb reels. Every campaign launches with several angles and lets the numbers choose.",
-           imgs(lang, ["noby-fire1.webp","noby-fire3.webp","nafha-post2.webp","darb-poster.webp"], "g-4")) + "</section>" + foot(lang)
+           "نماذج من تصميماتنا الإعلانية: بوستات درب موتورز، وبوستات وريلز نفحة. كل حملة بنطلقها بأكتر من زاوية ونسيب الأرقام تختار.",
+           "Samples of our ad creative: Darb Motors posts, and Nafha posts and reels. Every campaign launches with several angles and lets the numbers choose.",
+           imgs(lang, ["darbc-feed3.webp","nafha-post2.webp","darbc-feed2.webp","nafha-post3.webp"], "g-4")) + "</section>" + foot(lang)
 
 def tech(lang):
     p = "" if lang == "ar" else "../"
@@ -363,11 +360,7 @@ def tech(lang):
            "منيو كافيه بسلة طلبات بتتبعت على واتساب بالأصناف والإجمالي والعنوان، من غير تطبيق ولا عمولات.",
            "A café menu with a cart that sends the order to WhatsApp with items, total and address, with no app and no commissions.",
            dev("taqa-site-d.webp", "taqa-cart.webp"), dark=True, note=("مشروع مفاهيمي.", "Concept project."),
-           link=("https://tahawi0.github.io/taqa-coffee/", "جرّب الموقع", "Try the site")) + \
-      case(lang, "NOBY Sports", "كتالوج متجر", "Store catalogue",
-           "كتالوج منتجات للموبايل بالمقاسات والأسعار، وطلب بضغطة على واتساب للقاهرة والجيزة.",
-           "A mobile product catalogue with sizes and prices, and one-tap WhatsApp ordering for Cairo and Giza.",
-           dev("noby-site-desktop.webp", "noby-site-mobile.webp")) + "</section>" + foot(lang)
+           link=("https://tahawi0.github.io/taqa-coffee/", "جرّب الموقع", "Try the site")) + "</section>" + foot(lang)
 
 
 # ---------- shared blocks: packages + FAQ ----------
@@ -445,8 +438,8 @@ SECTORS = [
   pains=[("صور الشماعة مش بتبيع","Hanger photos don't sell","العميلة عايزة تشوف القطعة لابسها حد، مش متعلقة على الحيطة.","Customers want to see the piece worn, not hanging on a wall."),
          ("سيشن التصوير غالي ومتعب","Photoshoots are costly and slow","موديل واستوديو ومصور لكل كولكشن، ولسه فيه قطع جديدة كل أسبوع.","A model, studio and photographer for every drop, with new pieces every week."),
          ("الصفحة شكلها مش موحّد","The page looks inconsistent","كل بوست بلون وإضاءة مختلفة، فالبراند مش بيتحفظ.","Every post has different light and colour, so the brand doesn't stick.")],
-  svcs=["photos","graphics","identity","ads"], work=["drape-before.webp","drape-look02.webp","drape-look04.webp","noby-fire1.webp","drape-post08.webp","noby-fire3.webp"],
-  links=[("creative.html","شوف شغل Drapé وNOBY","See Drapé and NOBY")], offer="sample"),
+  svcs=["photos","graphics","identity","ads"], work=["drape-before.webp","drape-look02.webp","drape-look04.webp","drape-look03.webp","drape-post08.webp","drape-look05.webp"],
+  links=[("creative.html","شوف شغل Drapé كامل","See the full Drapé work")], offer="sample"),
  dict(key="beauty", ar="تجميل وعطور", en="Beauty & perfume", img="nafha-hero.webp",
   h_ar="منتجك يستاهل<br>صورة أفخم.", h_en="Your product deserves<br>a richer shot.",
   l_ar="للعطور ومستحضرات التجميل والعناية: صور منتج فاخرة، وريلز بتعليق صوتي عربي، وبوستات بهوية واحدة.",
@@ -523,6 +516,17 @@ def sector_page(sc):
 <section class="wrap block sec-work" id="work"><h2 class="reveal">{T(lang,'من شغلنا','From our work')}</h2><div class="grid g-3 reveal">{work}</div><div class="cta-row reveal">{lk}</div></section>
 """ + offer + (faq(lang) if sc["offer"] == "sample" else "") + foot(lang)
     return build
+
+
+def tools_section(lang):
+    items = [("audit.html", T(lang,"قيّم صفحتك في دقيقة","Rate your page in a minute"), T(lang,"٨ أسئلة عن صفحتك على فيسبوك وانستجرام، وتاخد درجة ونصايح تطبقها النهارده.","8 questions about your page, with a score and tips you can apply today."), T(lang,"ابدأ التقييم","Start"), "audit"),
+             ("photo-guide.html", T(lang,"دليل التصوير بالموبايل","Phone photo guide"), T(lang,"٧ نصايح بسيطة تخلّي صورة منتجك أحسن من غير أي معدات.","7 simple tips for better product photos with no gear."), T(lang,"اقرا الدليل","Read the guide"), "guide"),
+             ("order.html", T(lang,"جهّز طلب صورك","Build your photo order"), T(lang,"اختار المنتج والستايل والعدد، وشوف السعر قبل ما تكلمنا.","Pick product, style and quantity, and see the price before you message us."), T(lang,"جهّز الطلب","Build order"), "order")]
+    icons = {"audit": '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3"/><path d="M24 24 L24 10" stroke="#d9481f" stroke-width="4" stroke-linecap="round"/><path d="M24 24 L34 30" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+             "guide": '<svg viewBox="0 0 48 48"><rect x="14" y="4" width="20" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="24" cy="12" r="3" fill="#d9481f"/><path d="M4 30 l8 -4 M4 22 l8 0 M4 14 l8 4" stroke="#d9481f" stroke-width="3" stroke-linecap="round"/></svg>',
+             "order": '<svg viewBox="0 0 48 48"><rect x="8" y="6" width="32" height="38" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><path d="M16 18 h16 M16 26 h16 M16 34 h9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="36" cy="36" r="8" fill="#d9481f"/></svg>'}
+    cards = "".join(f'<a class="tool reveal" href="{h}"><span class="tool-ic">{icons[k]}</span><h3>{t}</h3><p>{d}</p><b>{c} <span class="arr">{T(lang,"←","→")}</span></b></a>' for h, t, d, c, k in items)
+    return f'<section class="tools wrap" id="tools"><p class="kicker reveal">{T(lang,"ببلاش","Free")}</p><h2 class="reveal">{T(lang,"أدوات مجانية لنشاطك","Free tools for your business")}</h2><div class="tool-grid">{cards}</div></section>'
 
 # ---------- page audit quiz ----------
 AUDIT = [
