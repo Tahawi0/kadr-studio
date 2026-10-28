@@ -8,7 +8,7 @@ SITE = "https://tahawi0.github.io/kadr-studio"
 # Fill these in when the accounts exist (leave "" to switch off)
 GOATCOUNTER = "kadrstudio"      # e.g. "kadrstudio"  -> https://kadrstudio.goatcounter.com
 META_PIXEL = ""       # e.g. "123456789012345" from Meta Events Manager
-GSC_TOKEN = ""        # Google Search Console HTML-tag verification content
+GSC_TOKEN = "6-PiXOCklsRUEXaHXwVfm2oIPjcwCfjL655V1HjhYuI"        # Google Search Console HTML-tag verification content
 SAMPLE_MSG = {"ar": "أهلًا كادر، عايز أجرب الصورة المجانية.", "en": "Hi Kadr Studio, I'd like to try the free photo."}
 PACKAGES = [  # product photography bundles (EGP, USD)
   dict(n=5,  egp=1250, usd=60),
