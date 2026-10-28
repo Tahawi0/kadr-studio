@@ -160,6 +160,7 @@ def foot(lang):
 <footer class="foot">
   <div class="wrap">
     <p class="big-word">KADR<span>كادر</span></p>
+    <nav class="foot-links">{''.join(f'<a href="for-{x["key"]}.html">{T(lang,x["ar"],x["en"])}</a>' for x in SECTORS)}<a href="free-sample.html">{T(lang,'صورة مجانية','Free photo')}</a><a href="order.html">{T(lang,'اطلب صورك','Order photos')}</a><a href="photo-guide.html">{T(lang,'دليل التصوير بالموبايل','Phone photo guide')}</a><a href="audit.html">{T(lang,'قيّم صفحتك','Rate your page')}</a></nav>
     <div class="foot-row">
       <span>© 2026 Kadr Studio</span>
       <span>{T(lang,'القاهرة، مصر · بنشتغل مع مصر والخليج والعالم','Cairo, Egypt · Working with Egypt, the Gulf and beyond')}</span>
@@ -231,6 +232,7 @@ def home(lang):
   <a class="btn solid light reveal" href="free-sample.html">{T(lang,'تفاصيل العرض','See the offer')} <span class="arr">{T(lang,'←','→')}</span></a>
 </div></section>
 <section id="pillars" class="pillars">{pillars}</section>
+""" + sector_cards(lang) + f"""
 <section class="estimator wrap" id="estimate">
   <div class="est-head reveal"><h2>{T(lang,'احسب باقتك','Build your package')}</h2><p class="lede">{T(lang,'اختار اللي محتاجه، وشوف السعر المبدئي، وابعته لنا على واتساب في ضغطة.','Pick what you need, see a starting price, and send it to us on WhatsApp in one tap.')}</p></div>
   <form class="est-form reveal" id="est">{est}</form>
@@ -433,6 +435,202 @@ def biz_jsonld(lang):
                              "Cairo creative studio: AI product photography, brand identity and design, paid ads, websites and systems.")}
     return '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + "</script>\n"
 
+
+# ---------- sector pages ----------
+SECTORS = [
+ dict(key="fashion", ar="ملابس وأزياء", en="Fashion & clothing", img="drape-look02.webp",
+  h_ar="صور تبيع القطعة<br>قبل ما تتلمس.", h_en="Photos that sell the piece<br>before it's touched.",
+  l_ar="لمحلات وبراندات الملابس: صور على موديل بإضاءة استوديو من صورة موبايل، وهوية وإعلانات بتجيب رسايل.",
+  l_en="For clothing stores and labels: on-model studio shots from a phone photo, plus identity and ads that bring in messages.",
+  pains=[("صور الشماعة مش بتبيع","Hanger photos don't sell","العميلة عايزة تشوف القطعة لابسها حد، مش متعلقة على الحيطة.","Customers want to see the piece worn, not hanging on a wall."),
+         ("سيشن التصوير غالي ومتعب","Photoshoots are costly and slow","موديل واستوديو ومصور لكل كولكشن، ولسه فيه قطع جديدة كل أسبوع.","A model, studio and photographer for every drop, with new pieces every week."),
+         ("الصفحة شكلها مش موحّد","The page looks inconsistent","كل بوست بلون وإضاءة مختلفة، فالبراند مش بيتحفظ.","Every post has different light and colour, so the brand doesn't stick.")],
+  svcs=["photos","graphics","identity","ads"], work=["drape-before.webp","drape-look02.webp","drape-look04.webp","noby-fire1.webp","drape-post08.webp","noby-fire3.webp"],
+  links=[("creative.html","شوف شغل Drapé وNOBY","See Drapé and NOBY")], offer="sample"),
+ dict(key="beauty", ar="تجميل وعطور", en="Beauty & perfume", img="nafha-hero.webp",
+  h_ar="منتجك يستاهل<br>صورة أفخم.", h_en="Your product deserves<br>a richer shot.",
+  l_ar="للعطور ومستحضرات التجميل والعناية: صور منتج فاخرة، وريلز بتعليق صوتي عربي، وبوستات بهوية واحدة.",
+  l_en="For perfume, beauty and skincare: luxury product shots, reels with Arabic voiceover, and posts in one consistent look.",
+  pains=[("العبوة حلوة والصورة لأ","Great bottle, flat photo","صورة الموبايل بتطفي اللمعة والتفاصيل اللي دفعت فيها.","Phone photos flatten the shine and details you paid for."),
+         ("المنافسين شكلهم أغلى","Competitors look pricier","العميل بيحكم على السعر من شكل الصورة قبل ما يقرأ أي حاجة.","Buyers judge the price from the photo before reading anything."),
+         ("الريلز محتاجة إنتاج","Reels need production","فيديو بتعليق صوتي وموسيقى بياخد وقت وفلوس لو اتعمل تقليدي.","A reel with voiceover and music takes time and money the usual way.")],
+  svcs=["photos","video","identity","graphics"], work=["nafha-post1.webp","dune-set.webp","nafha-post2.webp","nafha-gift.webp","nafha-post3.webp","nafha-majlis.webp"],
+  links=[("creative.html","شوف شغل نفحة وDune & Dew","See Nafha and Dune & Dew")], offer="sample"),
+ dict(key="food", ar="مطاعم وكافيهات", en="Restaurants & cafés", img="taqa-hero.webp",
+  h_ar="منيو يفتح النفس،<br>وطلب يوصل واتساب.", h_en="A menu that tempts,<br>orders that land on WhatsApp.",
+  l_ar="للمطاعم والكافيهات: صور أصناف بتفتح النفس، ومنيو أونلاين بيبعت الطلب على واتساب من غير عمولات تطبيقات.",
+  l_en="For restaurants and cafés: dish photos that make people hungry, and an online menu that sends orders to WhatsApp with no app commissions.",
+  pains=[("عمولات التطبيقات بتاكل الربح","App commissions eat the margin","٢٠–٣٠٪ من كل طلب بتروح لتطبيقات التوصيل.","20–30% of every order goes to delivery apps."),
+         ("صور الأكل مش بتشهّي","Food photos don't tempt","إضاءة المطبخ بتخلي أحلى صنف شكله عادي.","Kitchen light makes the best dish look ordinary."),
+         ("الطلبات بتضيع في الرسايل","Orders get lost in chats","العميل يسأل عن المنيو والأسعار والتوصيل في ١٠ رسايل.","Customers ask about the menu, prices and delivery over 10 messages.")],
+  svcs=["photos","web","graphics","social"], work=["taqa-hero.webp","taqa-site-m.webp","taqa-cart.webp","taqa-spanish.webp"],
+  links=[("https://tahawi0.github.io/taqa-coffee/","جرّب منيو طاقة","Try the Taqa menu")], offer="sample"),
+ dict(key="clinics", ar="عيادات ومراكز", en="Clinics & centres", img="lumaa-reception.webp",
+  h_ar="عيادة شكلها يطمّن،<br>ومواعيد بتتنظم لوحدها.", h_en="A clinic that reassures,<br>bookings that run themselves.",
+  l_ar="لعيادات الأسنان والتجميل والمراكز الطبية: هوية بتبني ثقة، ونظام حجوزات بتأكيد وتذكير واتساب تلقائي.",
+  l_en="For dental, aesthetics and medical clinics: an identity that builds trust, and a booking system with automatic WhatsApp confirmations and reminders.",
+  pains=[("مرضى بيحجزوا ومش بييجوا","No-shows","من غير تذكير، نسبة الغياب بتاكل جدول اليوم.","Without reminders, no-shows eat the day's schedule."),
+         ("الاستقبال غرقان في المكالمات","Reception drowns in calls","تأكيد وتغيير وإلغاء مواعيد طول اليوم بالتليفون.","Confirming, moving and cancelling appointments by phone all day."),
+         ("الشكل مش بيعكس المستوى","The look undersells the care","لوجو قديم وبوستات عشوائية بتخلي العيادة شكلها أقل من مستواها.","An old logo and random posts make the clinic look below its level.")],
+  svcs=["identity","systems","graphics","ads"], work=["lumaa-reception.webp","lumaa-sys-d.webp","lumaa-post-smile.webp","lumaa-stationery.webp","lumaa-exterior.webp","lumaa-post-offer.webp"],
+  links=[("demos/lumaa/","جرّب نظام الحجوزات","Try the booking system")], offer="screen"),
+ dict(key="cars", ar="معارض وتوكيلات عربيات", en="Car showrooms & dealers", img="darb-hero.webp",
+  h_ar="حجوزات تجربة قيادة،<br>مش لايكات.", h_en="Test-drive bookings,<br>not likes.",
+  l_ar="لمعارض ووكلاء العربيات: حملات ممولة بهدف حجوزات مؤهلة على واتساب، وريلز بتعليق صوتي، وصفحات وتطبيقات بحاسبة قسط.",
+  l_en="For showrooms and dealers: paid campaigns aimed at qualified WhatsApp bookings, voiceover reels, and pages and apps with an instalment calculator.",
+  pains=[("رسايل كتير وحجوزات قليلة","Lots of messages, few bookings","«بكام؟» و«فيه قسط؟» من ناس مش جاهزة تشتري.","“How much?” and “Instalments?” from people not ready to buy."),
+         ("الإعلان مش متقاس","Ads aren't measured","مفيش رقم واضح لتكلفة الحجز أو العميل الجاد.","No clear cost per booking or per serious lead."),
+         ("المحتوى شبه بعضه","Content all looks the same","نفس صور التوكيل اللي عند كل المعارض التانية.","The same factory photos every other showroom posts.")],
+  svcs=["ads","video","web","android"], work=["darbc-strategy.webp","darb-poster.webp","darbc-feed1_a.webp","darb-app-car.webp","darbc-feed2.webp","darb-site-m.webp"],
+  links=[("growth.html","شوف حملة درب موتورز","See the Darb Motors campaign"),("demos/darb-app/","جرّب تطبيق درب","Try the Darb app")], offer="screen"),
+]
+ALL_SVCS = {x["id"]: x for k in SERVICES for x in SERVICES[k]}
+
+def sector_cards(lang):
+    p = "" if lang == "ar" else "../"
+    cards = "".join(f'<a class="sec-card reveal" href="for-{sc["key"]}.html"><img src="{p}assets/img/{sc["img"]}" alt="" loading="lazy"><span>{T(lang,sc["ar"],sc["en"])} <b class="arr">{T(lang,"←","→")}</b></span></a>' for sc in SECTORS)
+    return f'<section class="sectors wrap" id="sectors"><h2 class="reveal">{T(lang,"شغلنا لمجالك","Work for your field")}</h2><p class="lede reveal">{T(lang,"اختار مجالك وشوف بنحل مشاكله إزاي، وبأمثلة من شغلنا.","Pick your field and see how we solve its problems, with examples of our work.")}</p><div class="sec-grid">{cards}</div></section>'
+
+def sector_page(sc):
+    def build(lang):
+        p = "" if lang == "ar" else "../"
+        page = f"for-{sc['key']}.html"
+        pains = "".join(f'<li class="reveal"><b>{T(lang,a,b)}</b><span>{T(lang,c,d)}</span></li>' for a, b, c, d in sc["pains"])
+        rows = "".join(f'<li class="svc reveal"><div><h3>{T(lang,ALL_SVCS[i]["ar"],ALL_SVCS[i]["en"])}</h3><p>{T(lang,ALL_SVCS[i]["dar"],ALL_SVCS[i]["den"])}</p></div><b>{price(lang,ALL_SVCS[i])}</b></li>' for i in sc["svcs"])
+        work = "".join(f'<img src="{p}assets/img/{w}" alt="" loading="lazy">' for w in sc["work"])
+        lk = ""
+        for href, a, b in sc["links"]:
+            ext = href.startswith("http")
+            h = href if ext or lang == "ar" else "../" + href
+            lk += f'<a class="btn line" href="{h}"{" target=\"_blank\" rel=\"noopener\"" if ext else ""}>{T(lang,a,b)} <span class="arr">{T(lang,"←","→")}</span></a>'
+        if sc["offer"] == "sample":
+            msg = T(lang, f"أهلًا كادر، عندي نشاط في مجال {sc['ar']} وعايز أجرب الصورة المجانية.", f"Hi Kadr Studio, I run a {sc['en'].lower()} business and I'd like to try the free photo.")
+            offer = f"""<section class="offer-band"><div class="wrap offer-in"><p class="reveal"><b>{T(lang,'جرّبنا ببلاش:','Try us free:')}</b> {T(lang,'ابعت صورة منتج واحدة من الموبايل، وخدها صورة احترافية خلال ٤٨ ساعة.','send one phone photo of a product and get a professional shot within 48 hours.')}</p><a class="btn solid light js-wa reveal" data-msg="{msg}" href="#contact">{T(lang,'ابعت صورتك','Send your photo')}</a></div></section>""" + packages(lang)
+        else:
+            msg = T(lang, f"أهلًا كادر، عندي {sc['ar']} وحابب أعرف تفاصيل أكتر.", f"Hi Kadr Studio, I run a {sc['en'].lower()} business and I'd like to know more.")
+            offer = f"""<section class="offer-band"><div class="wrap offer-in"><p class="reveal"><b>{T(lang,'خطوة أولى مجانية:','Free first step:')}</b> {T(lang,'احكيلنا عن نشاطك، ونرسملك شاشة واحدة أو تصميم إعلان واحد ببلاش عشان تشوف الشكل قبل ما تقرر.','tell us about your business and we design one screen or one ad for free, so you see it before you decide.')}</p><a class="btn solid light js-wa reveal" data-msg="{msg}" href="#contact">{T(lang,'كلّمنا واتساب','Talk on WhatsApp')}</a></div></section>"""
+        title = T(lang, f"{sc['ar']} — كادر استوديو", f"{sc['en']} — Kadr Studio")
+        return head(lang, title, T(lang, sc["l_ar"], sc["l_en"]), page, image=sc["img"]) + nav(lang, page) + f"""
+<section class="page-hero">
+  <div class="wrap page-hero-in">
+    <div><p class="kicker">{T(lang,'لـ','For ')}{T(lang,sc['ar'],sc['en'].lower())}</p><h1 class="reveal">{T(lang,sc['h_ar'],sc['h_en'])}</h1><p class="lede reveal">{T(lang,sc['l_ar'],sc['l_en'])}</p>
+    <div class="cta-row reveal"><a class="btn solid js-wa" data-msg="{msg}" href="#contact">{T(lang,'كلّمنا واتساب','Talk on WhatsApp')}</a><a class="btn line" href="#work">{T(lang,'شوف الشغل','See the work')}</a></div></div>
+    {frame(sc['img'], '', 'hero-img', lang)}
+  </div>
+</section>
+<section class="method p-growth"><div class="wrap"><h2 class="reveal">{T(lang,'مشاكل نعرفها كويس','Problems we know well')}</h2><ul class="steps light">{pains}</ul></div></section>
+<section class="wrap block"><h2 class="reveal">{T(lang,'اللي نقدر نعمله لك','What we can do for you')}</h2><ul class="svc-list">{rows}</ul></section>
+<section class="wrap block sec-work" id="work"><h2 class="reveal">{T(lang,'من شغلنا','From our work')}</h2><div class="grid g-3 reveal">{work}</div><div class="cta-row reveal">{lk}</div></section>
+""" + offer + (faq(lang) if sc["offer"] == "sample" else "") + foot(lang)
+    return build
+
+# ---------- page audit quiz ----------
+AUDIT = [
+ ("صورة البروفايل لوجو واضح يتقري في الدايرة الصغيرة؟","Is your profile picture a clear logo that reads in a small circle?","استخدم لوجو مبسّط على خلفية سادة، من غير كلام صغير.","Use a simplified logo on a plain background, with no small text.",10),
+ ("صورة الغلاف بتقول بتبيع إيه في ثانية؟","Does your cover say what you sell in one second?","حط منتجك الأساسي وجملة واحدة بتقول بتعمل إيه ولمين.","Show your main product and one line on what you do and for whom.",10),
+ ("صور المنتجات بإضاءة وخلفية موحّدة؟","Do product photos share the same light and background?","وحّد الخلفية والإضاءة، أو خلي كل الصور بنفس الستايل.","Unify background and light, or keep every photo in one style.",20),
+ ("بتنزل بوست أو ريل ٣ مرات في الأسبوع على الأقل؟","Do you post at least 3 times a week?","اعمل جدول بسيط: ٣ بوستات ثابتة في الأسبوع أحسن من ١٠ مرة واحدة.","Keep a simple schedule: 3 steady posts a week beat 10 at once.",10),
+ ("الأسعار واضحة في البوست أو الهايلايت؟","Are prices clear in posts or highlights?","«السعر في الخاص» بيطفّش ناس كتير. اكتب السعر أو «يبدأ من».","“Price in DM” drives people away. Show the price or a “from” price.",15),
+ ("فيه زرار واتساب أو طريقة طلب واضحة؟","Is there a WhatsApp button or a clear way to order?","ضيف زرار واتساب للصفحة ولينك طلب مباشر في البايو.","Add a WhatsApp button and a direct order link in your bio.",15),
+ ("بترد على الرسايل في أقل من ساعة؟","Do you reply to messages within an hour?","فعّل رد تلقائي ورسايل جاهزة. أول ساعة هي اللي بتقفل البيعة.","Turn on auto-replies and saved answers; the first hour closes the sale.",10),
+ ("عندك تقييمات أو صور من عملاء حقيقيين؟","Do you show real customer reviews or photos?","اطلب من كل عميل راضي صورة أو جملة، وحطها في هايلايت «آراء العملاء».","Ask every happy customer for a photo or a line and pin them in a highlight.",10),
+]
+
+def audit(lang):
+    qs = ""
+    for i, (qa, qe, ta, te, w) in enumerate(AUDIT):
+        qs += f"""<fieldset class="aq reveal" data-w="{w}" data-tip="{T(lang,ta,te)}" data-q="{T(lang,qa,qe)}"><legend><span>{i+1}</span>{T(lang,qa,qe)}</legend>
+<label><input type="radio" name="q{i}" value="1"> {T(lang,'أيوه','Yes')}</label><label><input type="radio" name="q{i}" value="0.5"> {T(lang,'نص نص','Partly')}</label><label><input type="radio" name="q{i}" value="0"> {T(lang,'لأ','No')}</label></fieldset>"""
+    title = T(lang, "قيّم صفحتك في دقيقة — كادر استوديو", "Rate your page in a minute — Kadr Studio")
+    desc = T(lang, "٨ أسئلة سريعة عن صفحة نشاطك على فيسبوك وانستجرام، وتاخد درجة ونصايح عملية تطبقها النهارده.", "8 quick questions about your business page on Facebook and Instagram, with a score and practical tips.")
+    return head(lang, title, desc, "audit.html") + nav(lang, "audit.html") + f"""
+<section class="page-hero"><div class="wrap"><p class="kicker">{T(lang,'أداة مجانية','Free tool')}</p><h1 class="reveal">{T(lang,'قيّم صفحتك<br>في دقيقة.','Rate your page<br>in a minute.')}</h1><p class="lede reveal">{T(lang,'٨ أسئلة عن صفحة نشاطك على فيسبوك وانستجرام. جاوب بصراحة، وخد درجة ونصايح تقدر تطبقها النهارده بنفسك.','8 questions about your business page. Answer honestly and get a score plus tips you can apply yourself today.')}</p></div></section>
+<section class="wrap audit-wrap"><form id="audit" class="audit">{qs}<button type="submit" class="btn solid">{T(lang,'اطلع النتيجة','Show my score')}</button></form>
+<div id="auditOut" class="audit-out" hidden><p class="kicker">{T(lang,'نتيجتك','Your score')}</p><output id="auditScore"></output><h3 id="auditLevel"></h3><ul id="auditTips"></ul>
+<a class="btn solid light" id="auditSend" href="#">{T(lang,'ابعت النتيجة واتساب وخد رأينا','Send the result on WhatsApp for our view')}</a><p class="note">{T(lang,'الإجابات بتفضل على جهازك. مش بنحفظ أي حاجة غير لو بعتّها إنت.','Your answers stay on your device; nothing is saved unless you send it.')}</p></div></section>
+""" + foot(lang)
+
+# ---------- phone photo guide ----------
+def guide_svg(kind):
+    ink, acc, paper = "#151412", "#d9481f", "#e8e1d3"
+    base = f'<rect width="320" height="220" rx="6" fill="{paper}"/>'
+    phone = lambda x, y, r=0: f'<g transform="translate({x} {y}) rotate({r})"><rect x="-22" y="-40" width="44" height="80" rx="8" fill="{ink}"/><circle cx="0" cy="-30" r="4" fill="{paper}"/></g>'
+    prod = lambda x, y, s=1: f'<g transform="translate({x} {y}) scale({s})"><rect x="-18" y="-30" width="36" height="60" rx="6" fill="#b89b5e"/><rect x="-9" y="-44" width="18" height="16" rx="3" fill="{ink}"/><rect x="-12" y="-6" width="24" height="14" fill="{paper}"/></g>'
+    if kind == "light":
+        return base + f'<rect x="20" y="30" width="80" height="110" fill="#fff" stroke="{ink}" stroke-width="3"/><line x1="60" y1="30" x2="60" y2="140" stroke="{ink}" stroke-width="2"/><line x1="20" y1="85" x2="100" y2="85" stroke="{ink}" stroke-width="2"/>' + \
+            "".join(f'<line x1="105" y1="{60+i*18}" x2="165" y2="{80+i*14}" stroke="{acc}" stroke-width="3" stroke-dasharray="6 6"/>' for i in range(4)) + prod(200, 150) + phone(275, 140)
+    if kind == "bg":
+        return base + f'<rect x="110" y="30" width="180" height="160" fill="#fff"/><path d="M110 150 Q200 140 290 150 L290 190 L110 190Z" fill="#f4f1ea"/>' + prod(200, 150) + \
+            f'<g opacity=".5"><rect x="20" y="60" width="60" height="40" fill="{ink}" opacity=".25"/><circle cx="50" cy="150" r="22" fill="{acc}" opacity=".35"/></g><line x1="15" y1="40" x2="90" y2="190" stroke="{acc}" stroke-width="5"/>'
+    if kind == "angle":
+        return base + f'<line x1="20" y1="180" x2="300" y2="180" stroke="{ink}" stroke-width="2"/>' + prod(90, 150) + phone(240, 140) + \
+            f'<line x1="200" y1="128" x2="112" y2="128" stroke="{acc}" stroke-width="3" stroke-dasharray="6 5"/><text x="160" y="118" font-size="14" text-anchor="middle" fill="{ink}" font-family="sans-serif">90°</text>'
+    if kind == "frame":
+        return base + f'<rect x="80" y="20" width="160" height="180" rx="10" fill="none" stroke="{ink}" stroke-width="4"/>' + prod(160, 115, 1.9) + \
+            "".join(f'<path d="{d}" stroke="{acc}" stroke-width="4" fill="none"/>' for d in ["M95 50 V35 H110","M225 50 V35 H210","M95 170 V185 H110","M225 170 V185 H210"])
+    if kind == "clean":
+        return base + phone(110, 110) + f'<circle cx="110" cy="80" r="14" fill="none" stroke="{acc}" stroke-width="3"/>' + \
+            f'<path d="M150 70 q30 -20 50 10" stroke="{ink}" stroke-width="3" fill="none"/>' + prod(240, 130) + \
+            "".join(f'<path d="M{x} {y} l6 -10 l6 10 l-6 10z" fill="{acc}"/>' for x, y in [(268, 80), (205, 92), (275, 150)])
+    if kind == "sides":
+        return base + prod(60, 120, .9) + prod(130, 120, .9) + f'<g transform="translate(200 120) scale(.9)"><rect x="-18" y="-30" width="36" height="60" rx="6" fill="#a88b50"/></g>' + \
+            f'<circle cx="270" cy="115" r="32" fill="#fff" stroke="{acc}" stroke-width="3"/><rect x="254" y="104" width="32" height="20" fill="#b89b5e"/><rect x="258" y="109" width="24" height="9" fill="{paper}"/>'
+    if kind == "file":
+        return base + f'<rect x="40" y="40" width="110" height="140" rx="8" fill="#fff" stroke="{ink}" stroke-width="3"/><path d="M120 40 v28 h30" fill="none" stroke="{ink}" stroke-width="3"/><text x="95" y="130" font-size="22" text-anchor="middle" fill="{ink}" font-family="sans-serif" font-weight="700">JPG</text>' + \
+            f'<path d="M170 110 h60" stroke="{acc}" stroke-width="4" marker-end="url(#a)"/><defs><marker id="a" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="{acc}"/></marker></defs>' + \
+            f'<circle cx="270" cy="110" r="34" fill="#1f8f4e"/><path d="M256 110 l10 10 l18 -20" stroke="#fff" stroke-width="5" fill="none"/>'
+    return base
+
+GUIDE = [
+ ("light","صوّر جنب شباك","Shoot next to a window","ضوء النهار الجانبي هو أحسن إضاءة ببلاش. اقفل الفلاش وأنوار السقف عشان الألوان متتلخبطش.","Side daylight is the best free light. Turn off the flash and ceiling lights so colours stay true."),
+ ("bg","خلفية سادة ونضيفة","A plain, clean background","ورقة كرتون بيضا أو حيطة سادة أو ملاية من غير نقشة. شيل أي حاجة تانية من الكادر.","White card, a plain wall or a pattern-free sheet. Remove everything else from the frame."),
+ ("angle","الموبايل في مستوى المنتج","Phone at product height","صوّر من قدام والموبايل في نفس ارتفاع المنتج، مش من فوق ولا من تحت، عشان الشكل ميتشوّهش.","Shoot front-on with the phone at the product's height, not from above or below, so the shape isn't distorted."),
+ ("frame","المنتج يملا الكادر","Fill the frame","قرّب لحد ما المنتج ياخد معظم الصورة، وسيب مسافة صغيرة حواليه. متستخدمش الزووم، قرّب بإيدك.","Move closer until the product fills most of the shot with a little space around it. Don't zoom; move your hand."),
+ ("clean","امسح العدسة والمنتج","Wipe the lens and the product","مسحة واحدة للعدسة بتفرق جدًا في الوضوح. وشيل التراب والبصمات من المنتج.","One wipe of the lens makes a big difference to sharpness. Clean dust and fingerprints off the product."),
+ ("sides","صوّر كل الجوانب","Shoot every side","من قدام، ومن ورا، ومن الجنب، وصورة قريبة للّيبل أو أي تفصيلة مهمة.","Front, back, side, and a close-up of the label or any key detail."),
+ ("file","ابعتها كملف على واتساب","Send it as a file on WhatsApp","ابعت الصورة «مستند» مش «صورة»، عشان واتساب ميضغطهاش وتوصلنا بجودتها الكاملة.","Send the photo as a Document, not a Photo, so WhatsApp doesn't compress it."),
+]
+
+def guide(lang):
+    tips = "".join(f'<article class="tip reveal"><svg viewBox="0 0 320 220" role="img" aria-label="{T(lang,ta,te)}">{guide_svg(k)}</svg><p class="tip-n">{T(lang,"نصيحة","Tip")} {i+1}</p><h3>{T(lang,ta,te)}</h3><p>{T(lang,da,de)}</p></article>' for i, (k, ta, te, da, de) in enumerate(GUIDE))
+    title = T(lang, "إزاي تصوّر منتجك بالموبايل — ٧ نصايح | كادر استوديو", "How to photograph your product with a phone — 7 tips | Kadr Studio")
+    desc = T(lang, "دليل بسيط لتصوير المنتجات بالموبايل: الإضاءة والخلفية والزاوية وإرسال الصورة بجودة كاملة.", "A simple guide to phone product photography: light, background, angle and sending at full quality.")
+    msg = SAMPLE_MSG[lang]
+    return head(lang, title, desc, "photo-guide.html") + nav(lang, "photo-guide.html") + f"""
+<section class="page-hero"><div class="wrap"><p class="kicker">{T(lang,'دليل مجاني','Free guide')}</p><h1 class="reveal">{T(lang,'صوّر منتجك بالموبايل<br>صح من أول مرة.','Shoot your product<br>right the first time.')}</h1><p class="lede reveal">{T(lang,'٧ نصايح بسيطة من غير أي معدات. الصورة الكويسة من الأول بتخلي النتيجة النهائية أحسن، سواء صورتها لنفسك أو بعتهالنا.','7 simple tips with no gear. A good starting photo makes the final result better, whether you use it yourself or send it to us.')}</p></div></section>
+<section class="wrap tips">{tips}</section>
+<section class="fs-final wrap"><h2 class="reveal">{T(lang,'صوّرت؟ ابعتهالنا.','Done? Send it over.')}</h2><p class="lede reveal" style="margin-inline:auto">{T(lang,'ونرجعهالك صورة احترافية خلال ٤٨ ساعة، مجانًا.','We send back a professional shot within 48 hours, free.')}</p>
+<a class="btn solid js-wa reveal" data-msg="{msg}" href="#contact">{T(lang,'ابعت صورتك على واتساب','Send your photo on WhatsApp')}</a></section>
+""" + foot(lang)
+
+# ---------- order builder ----------
+def order(lang):
+    p = "" if lang == "ar" else "../"
+    types = [("clothes","ملابس","Clothing"),("beauty","عطور وتجميل","Perfume & beauty"),("food","أكل ومشروبات","Food & drinks"),("acc","إكسسوارات وهاندميد","Accessories & handmade"),("other","حاجة تانية","Something else")]
+    styles = [("studio","استوديو","Studio","خلفية سادة وإضاءة استوديو، للمتجر والكتالوج.","Plain background, studio light, for store and catalogue.","dune-set.webp"),
+              ("life","لايف ستايل","Lifestyle","المنتج في مكان حقيقي بيحكي قصة، للسوشيال والإعلانات.","The product in a real setting that tells a story, for social and ads.","nafha-hero.webp"),
+              ("model","على موديل","On model","القطعة متلبسة على موديل، للملابس والإكسسوارات.","The piece worn by a model, for clothing and accessories.","drape-look02.webp")]
+    t_html = "".join(f'<label class="chip"><input type="radio" name="type" value="{T(lang,a,b)}" data-k="{k}"{" checked" if i==0 else ""}><span>{T(lang,a,b)}</span></label>' for i, (k, a, b) in enumerate(types))
+    s_html = "".join(f'<label class="style-card" data-style="{k}"><input type="checkbox" name="style" value="{T(lang,a,b)}"{" checked" if k=="studio" else ""}><img src="{p}assets/img/{img}" alt="" loading="lazy"><b>{T(lang,a,b)}</b><span>{T(lang,da,de)}</span></label>' for k, a, b, da, de, img in styles)
+    q_html = "".join(f'<label class="chip"><input type="radio" name="qty" value="{k["n"]}" data-egp="{k["egp"]}" data-usd="{k["usd"]}"{" checked" if k.get("pick") else ""}><span>{ar_num(k["n"]) if lang=="ar" else k["n"]} {T(lang,"صور","photos")}</span></label>' for k in PACKAGES)
+    u_opts = [("بوست ٤:٥","4:5 post"),("ستوري وريلز ٩:١٦","9:16 story & reel"),("متجر مربع ١:١","1:1 store")]
+    u_html = "".join(f'<label class="chip"><input type="checkbox" name="use" value="{T(lang,a,b)}"{" checked" if i==0 else ""}><span>{T(lang,a,b)}</span></label>' for i, (a, b) in enumerate(u_opts))
+    title = T(lang, "اطلب صور منتجاتك — كادر استوديو", "Order your product photos — Kadr Studio")
+    desc = T(lang, "اختار نوع المنتج والستايل والعدد، وشوف السعر، وابعت طلبك مرتب على واتساب في ضغطة.", "Pick your product type, style and quantity, see the price, and send a tidy order on WhatsApp in one tap.")
+    return head(lang, title, desc, "order.html") + nav(lang, "order.html") + f"""
+<section class="page-hero"><div class="wrap"><p class="kicker">{T(lang,'اطلب في دقيقة','Order in a minute')}</p><h1 class="reveal">{T(lang,'جهّز طلب صورك.','Build your photo order.')}</h1><p class="lede reveal">{T(lang,'اختار اللي محتاجه، وشوف السعر قبل ما تكلمنا، وابعت الطلب مرتب على واتساب.','Choose what you need, see the price before you message us, and send a tidy order on WhatsApp.')}</p></div></section>
+<section class="wrap order-wrap"><form id="order" class="order">
+  <div class="ostep reveal"><h3><span>١</span>{T(lang,'نوع المنتج','Product type')}</h3><div class="chips">{t_html}</div></div>
+  <div class="ostep reveal"><h3><span>٢</span>{T(lang,'الستايل (تقدر تختار أكتر من واحد)','Style (pick one or more)')}</h3><div class="styles">{s_html}</div><p class="note" id="modelNote" hidden>{T(lang,'«على موديل» متاح للملابس والإكسسوارات بس.','“On model” is for clothing and accessories only.')}</p></div>
+  <div class="ostep reveal"><h3><span>٣</span>{T(lang,'عدد الصور','Number of photos')}</h3><div class="chips">{q_html}</div></div>
+  <div class="ostep reveal"><h3><span>٤</span>{T(lang,'المقاسات اللي محتاجها','Sizes you need')}</h3><div class="chips">{u_html}</div></div>
+  <div class="ostep reveal"><h3><span>٥</span>{T(lang,'ملاحظات (اختياري)','Notes (optional)')}</h3><textarea name="notes" rows="3" placeholder="{T(lang,'مثلًا: اسم البراند، ألوان معينة، مرجع عاجبك…','e.g. brand name, colours, a reference you like…')}"></textarea></div>
+</form>
+<aside class="order-out reveal"><p>{T(lang,'السعر','Price')}</p><output id="orderTotal">—</output><small id="orderPer"></small><ul id="orderSum"></ul>
+<a class="btn solid light" id="orderSend" href="#">{T(lang,'ابعت الطلب على واتساب','Send order on WhatsApp')}</a>
+<small>{T(lang,'مش متأكد؟ ابدأ بصورة مجانية الأول.','Not sure? Start with a free photo.')} <a href="free-sample.html">{T(lang,'العرض','The offer')}</a></small></aside></section>
+""" + foot(lang)
+
 # ---------- free sample landing page ----------
 def sample(lang):
     p = "" if lang == "ar" else "../"
@@ -465,7 +663,8 @@ def sample(lang):
     <p class="ba-note">{T(lang,'نفس القطعة بالظبط، من غير سيشن تصوير — من شغلنا لبراند Drapé Atelier.','The exact same piece, with no photoshoot — our work for Drapé Atelier.')}</p>
   </div>
 </section>
-<section class="process wrap"><h2 class="reveal">{T(lang,'٣ خطوات بس','Just 3 steps')}</h2><ol class="steps fs-steps">{st}</ol></section>
+<section class="process wrap"><h2 class="reveal">{T(lang,'٣ خطوات بس','Just 3 steps')}</h2><ol class="steps fs-steps">{st}</ol>
+<p class="reveal fs-help">{T(lang,'محتاج تعرف تصوّر صح؟','Want to shoot it right?')} <a href="photo-guide.html">{T(lang,'شوف دليل التصوير بالموبايل','See the phone photo guide')}</a> · {T(lang,'جاهز تطلب؟','Ready to order?')} <a href="order.html">{T(lang,'جهّز طلبك','Build your order')}</a></p></section>
 <section class="fs-band"><div class="wrap fs-band-in">
   <div><h2 class="reveal">{T(lang,'مناسب لمين؟','Who is it for?')}</h2>
   <p class="lede reveal">{T(lang,'محلات وبراندات الملابس، والعطور ومستحضرات التجميل، والهاندميد، والمطاعم والكافيهات.','Clothing stores and labels, perfume and beauty, handmade products, restaurants and cafés.')}</p>
@@ -478,7 +677,7 @@ def sample(lang):
 """ + foot(lang)
 
 def sitemap():
-    pages = ["", "free-sample.html", "creative.html", "growth.html", "tech.html"]
+    pages = ["", "free-sample.html", "order.html", "photo-guide.html", "audit.html", "creative.html", "growth.html", "tech.html"] + [f"for-{x['key']}.html" for x in SECTORS]
     urls = ""
     for pg in pages:
         for pre in ("", "en/"):
@@ -487,7 +686,9 @@ def sitemap():
     open("sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "</urlset>\n")
     open("robots.txt", "w").write(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 
-PAGES = {"index.html": home, "free-sample.html": sample, "creative.html": creative, "growth.html": growth, "tech.html": tech}
+PAGES = {"index.html": home, "free-sample.html": sample, "creative.html": creative, "growth.html": growth, "tech.html": tech,
+         "audit.html": audit, "photo-guide.html": guide, "order.html": order}
+for _sc in SECTORS: PAGES[f"for-{_sc['key']}.html"] = sector_page(_sc)
 os.makedirs("en", exist_ok=True)
 for name, fn in PAGES.items():
     open(name, "w").write(fn("ar"))

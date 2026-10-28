@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order your product photos — Kadr Studio</title>
+<meta name="description" content="Pick your product type, style and quantity, see the price, and send a tidy order on WhatsApp in one tap.">
+<link rel="canonical" href="https://tahawi0.github.io/kadr-studio/en/order.html">
+<link rel="alternate" hreflang="ar" href="https://tahawi0.github.io/kadr-studio/order.html">
+<link rel="alternate" hreflang="en" href="https://tahawi0.github.io/kadr-studio/en/order.html">
+<link rel="alternate" hreflang="x-default" href="https://tahawi0.github.io/kadr-studio/order.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kadr Studio — كادر">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://tahawi0.github.io/kadr-studio/en/order.html">
+<meta property="og:title" content="Order your product photos — Kadr Studio">
+<meta property="og:description" content="Pick your product type, style and quantity, see the price, and send a tidy order on WhatsApp in one tap.">
+<meta property="og:image" content="https://tahawi0.github.io/kadr-studio/assets/img/nafha-hero.webp">
+<meta name="theme-color" content="#151412">
+<meta name="google-site-verification" content="6-PiXOCklsRUEXaHXwVfm2oIPjcwCfjL655V1HjhYuI">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<script data-goatcounter="https://kadrstudio.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<header class="nav">
+  <a href="index.html" class="logo" aria-label="Kadr Studio"><span class="mark"><i></i><i></i><i></i><i></i>K</span><span class="word">KADR<small>studio</small></span></a>
+  <nav class="links"><a href="index.html">Home</a><a href="creative.html">Creative</a><a href="growth.html">Growth</a><a href="tech.html">Tech</a><a href="free-sample.html" class="hl">Free photo</a></nav>
+  <a class="lang" href="../order.html" hreflang="ar">العربية</a>
+  <a class="btn small solid js-wa" href="#contact">WhatsApp</a>
+</header>
+<main>
+
+<section class="page-hero"><div class="wrap"><p class="kicker">Order in a minute</p><h1 class="reveal">Build your photo order.</h1><p class="lede reveal">Choose what you need, see the price before you message us, and send a tidy order on WhatsApp.</p></div></section>
+<section class="wrap order-wrap"><form id="order" class="order">
+  <div class="ostep reveal"><h3><span>١</span>Product type</h3><div class="chips"><label class="chip"><input type="radio" name="type" value="Clothing" data-k="clothes" checked><span>Clothing</span></label><label class="chip"><input type="radio" name="type" value="Perfume & beauty" data-k="beauty"><span>Perfume & beauty</span></label><label class="chip"><input type="radio" name="type" value="Food & drinks" data-k="food"><span>Food & drinks</span></label><label class="chip"><input type="radio" name="type" value="Accessories & handmade" data-k="acc"><span>Accessories & handmade</span></label><label class="chip"><input type="radio" name="type" value="Something else" data-k="other"><span>Something else</span></label></div></div>
+  <div class="ostep reveal"><h3><span>٢</span>Style (pick one or more)</h3><div class="styles"><label class="style-card" data-style="studio"><input type="checkbox" name="style" value="Studio" checked><img src="../assets/img/dune-set.webp" alt="" loading="lazy"><b>Studio</b><span>Plain background, studio light, for store and catalogue.</span></label><label class="style-card" data-style="life"><input type="checkbox" name="style" value="Lifestyle"><img src="../assets/img/nafha-hero.webp" alt="" loading="lazy"><b>Lifestyle</b><span>The product in a real setting that tells a story, for social and ads.</span></label><label class="style-card" data-style="model"><input type="checkbox" name="style" value="On model"><img src="../assets/img/drape-look02.webp" alt="" loading="lazy"><b>On model</b><span>The piece worn by a model, for clothing and accessories.</span></label></div><p class="note" id="modelNote" hidden>“On model” is for clothing and accessories only.</p></div>
+  <div class="ostep reveal"><h3><span>٣</span>Number of photos</h3><div class="chips"><label class="chip"><input type="radio" name="qty" value="5" data-egp="1250" data-usd="60"><span>5 photos</span></label><label class="chip"><input type="radio" name="qty" value="10" data-egp="2250" data-usd="110" checked><span>10 photos</span></label><label class="chip"><input type="radio" name="qty" value="20" data-egp="4000" data-usd="200"><span>20 photos</span></label></div></div>
+  <div class="ostep reveal"><h3><span>٤</span>Sizes you need</h3><div class="chips"><label class="chip"><input type="checkbox" name="use" value="4:5 post" checked><span>4:5 post</span></label><label class="chip"><input type="checkbox" name="use" value="9:16 story & reel"><span>9:16 story & reel</span></label><label class="chip"><input type="checkbox" name="use" value="1:1 store"><span>1:1 store</span></label></div></div>
+  <div class="ostep reveal"><h3><span>٥</span>Notes (optional)</h3><textarea name="notes" rows="3" placeholder="e.g. brand name, colours, a reference you like…"></textarea></div>
+</form>
+<aside class="order-out reveal"><p>Price</p><output id="orderTotal">—</output><small id="orderPer"></small><ul id="orderSum"></ul>
+<a class="btn solid light" id="orderSend" href="#">Send order on WhatsApp</a>
+<small>Not sure? Start with a free photo. <a href="free-sample.html">The offer</a></small></aside></section>
+</main>
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2 class="reveal">Send us your idea.<br>We reply today.</h2>
+    <p class="reveal">Message us on WhatsApp or email. Text is enough; no calls needed.</p>
+    <div class="cta-row reveal">
+      <a class="btn solid light js-wa" href="#">Talk on WhatsApp</a>
+      <a class="btn line light" href="mailto:kadr.studio6@gmail.com">kadr.studio6@gmail.com</a>
+    </div>
+  </div>
+</section>
+<footer class="foot">
+  <div class="wrap">
+    <p class="big-word">KADR<span>كادر</span></p>
+    <nav class="foot-links"><a href="for-fashion.html">Fashion & clothing</a><a href="for-beauty.html">Beauty & perfume</a><a href="for-food.html">Restaurants & cafés</a><a href="for-clinics.html">Clinics & centres</a><a href="for-cars.html">Car showrooms & dealers</a><a href="free-sample.html">Free photo</a><a href="order.html">Order photos</a><a href="photo-guide.html">Phone photo guide</a><a href="audit.html">Rate your page</a></nav>
+    <div class="foot-row">
+      <span>© 2026 Kadr Studio</span>
+      <span>Cairo, Egypt · Working with Egypt, the Gulf and beyond</span>
+    </div>
+  </div>
+</footer>
+<a class="wa-float js-wa" href="#contact" aria-label="Chat on WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6c-2 0-3.9-.5-5.6-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.8 5.1 2.2.9 3 1 4.1.8.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.6-.3z"/></svg><span>WhatsApp</span></a>
+<script>window.KADR={wa:"201555014697",lang:"en"};</script>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>
