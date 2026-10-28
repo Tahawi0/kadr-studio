@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لُمعة — نظام الحجوزات (نسخة تجريبية)</title>
+<meta name="description" content="نظام حجوزات وتذكير واتساب لعيادة أسنان وتجميل — ديمو تفاعلي من Kadr Studio ببيانات وهمية.">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cormorant+Garamond:wght@500&family=Readex+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="demo-bar">نسخة تجريبية من <a href="../../tech.html">Kadr Studio</a> — كل الأسماء والأرقام وهمية، والبيانات بتتحفظ على جهازك بس. <button id="resetBtn" type="button">إعادة البيانات</button></div>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <svg width="34" height="44" viewBox="0 0 110 140" aria-hidden="true"><path d="M10 136 V55 A45 45 0 0 1 100 55 V136" fill="none" stroke="#b89b5e" stroke-width="6"/><text x="55" y="112" text-anchor="middle" font-family="Cormorant Garamond" font-size="70" fill="#f4f0e8">L</text></svg>
+      <div><b>لُمعة</b><small>لوحة الاستقبال</small></div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab on" data-view="today" role="tab">مواعيد اليوم</button>
+      <button class="tab" data-view="week" role="tab">جدول الأسبوع</button>
+      <button class="tab" data-view="patients" role="tab">المرضى</button>
+      <button class="tab" data-view="auto" role="tab">الأتمتة والرسائل</button>
+    </nav>
+    <button class="new" id="newBtn" type="button">+ حجز جديد</button>
+  </aside>
+
+  <main class="main">
+    <!-- TODAY -->
+    <section class="view on" id="view-today">
+      <header class="vh"><div><h1 id="todayTitle">مواعيد اليوم</h1><p id="todayDate"></p></div>
+        <label class="filter">الطبيب <select id="docFilter"></select></label></header>
+      <div class="kpis" id="kpis"></div>
+      <div class="list" id="todayList"></div>
+    </section>
+
+    <!-- WEEK -->
+    <section class="view" id="view-week">
+      <header class="vh"><div><h1>جدول الأسبوع</h1><p>اضغط على أي ميعاد عشان تفتح تفاصيله.</p></div></header>
+      <div class="week" id="week"></div>
+    </section>
+
+    <!-- PATIENTS -->
+    <section class="view" id="view-patients">
+      <header class="vh"><div><h1>المرضى</h1><p>كل مريض بزياراته وآخر خدمة.</p></div>
+        <input class="search" id="pSearch" type="search" placeholder="ابحث بالاسم أو الرقم"></header>
+      <table class="ptable"><thead><tr><th>الاسم</th><th>الموبايل</th><th>عدد الزيارات</th><th>آخر خدمة</th><th>الموعد القادم</th></tr></thead><tbody id="pBody"></tbody></table>
+    </section>
+
+    <!-- AUTOMATION -->
+    <section class="view" id="view-auto">
+      <header class="vh"><div><h1>الأتمتة والرسائل</h1><p>الفلو ده بيشتغل على n8n ويبعت الرسائل عن طريق واتساب بزنس.</p></div></header>
+      <div class="flow" id="flow"></div>
+      <h2 class="h2">آخر الرسائل اللي اتبعتت</h2>
+      <div class="log" id="log"></div>
+    </section>
+  </main>
+
+  <aside class="phone-col">
+    <div class="phone" aria-label="معاينة رسائل واتساب">
+      <div class="ph-top"><span class="ph-av">ل</span><div><b>عيادة لُمعة</b><small>حساب أعمال</small></div></div>
+      <div class="ph-body" id="chat"></div>
+    </div>
+    <p class="ph-cap">معاينة لرسائل واتساب اللي بتوصل للمريض تلقائيًا.</p>
+  </aside>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" class="sheet" id="bookForm">
+    <header><h2 id="dlgTitle">حجز جديد</h2><button value="cancel" class="x" aria-label="إغلاق" formnovalidate>×</button></header>
+    <label>اسم المريض<input name="name" required placeholder="مثال: منة أحمد"></label>
+    <label>رقم الموبايل<input name="phone" required inputmode="tel" pattern="01[0-9]{9}" placeholder="01xxxxxxxxx"></label>
+    <div class="row2">
+      <label>الخدمة<select name="service" id="fService"></select></label>
+      <label>الطبيب<select name="doctor" id="fDoctor"></select></label>
+    </div>
+    <div class="row2">
+      <label>اليوم<input name="date" type="date" required></label>
+      <label>الساعة<select name="time" id="fTime"></select></label>
+    </div>
+    <p class="clash" id="clash" hidden>الميعاد ده محجوز للطبيب بالفعل، اختار ساعة تانية.</p>
+    <button class="primary" value="save" id="saveBtn">احفظ وابعت تأكيد واتساب</button>
+  </form>
+</dialog>
+
+<dialog id="detail">
+  <div class="sheet" id="detailBody"></div>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
