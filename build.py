@@ -6,7 +6,7 @@ WA = "201555014697"
 EMAIL = "kadr.studio6@gmail.com"
 SITE = "https://tahawi0.github.io/kadr-studio"
 # Fill these in when the accounts exist (leave "" to switch off)
-GOATCOUNTER = ""      # e.g. "kadrstudio"  -> https://kadrstudio.goatcounter.com
+GOATCOUNTER = "kadrstudio"      # e.g. "kadrstudio"  -> https://kadrstudio.goatcounter.com
 META_PIXEL = ""       # e.g. "123456789012345" from Meta Events Manager
 GSC_TOKEN = ""        # Google Search Console HTML-tag verification content
 SAMPLE_MSG = {"ar": "أهلًا كادر، عايز أجرب الصورة المجانية.", "en": "Hi Kadr Studio, I'd like to try the free photo."}
@@ -278,9 +278,9 @@ def creative(lang):
            "Identity for a dental and aesthetics clinic in New Cairo: a gold arch for the clinic door and the smile's frame, an olive, ivory and gold palette, stationery, signage, uniform and 6 launch posts.",
            imgs(lang, ["lumaa-reception.webp","lumaa-guide.webp","lumaa-dentist.webp","lumaa-exterior.webp","lumaa-post-launch.webp","lumaa-stationery.webp","lumaa-post-smile.webp","lumaa-post-room.webp","lumaa-post-offer.webp"], "g-lumaa"), note=spec) + \
       case(lang, "Drapé Atelier", "هوية بصرية · صور بالذكاء الاصطناعي · إطلاق", "Identity · AI photography · Launch",
-           "براند أزياء محتشمة من الصفر: الاسم، ونظام اللوجو، وألوان ترابية بلمسة نبيتي، و١٠ لوكات حملة من صور فلات لاي، من غير سيشن تصوير.",
-           "A modest-fashion label from zero: name, logo system, earthy palette with a wine accent, and 10 campaign looks made from flat lays, with no photoshoot.",
-           imgs(lang, ["drape-look01.webp","drape-flatlay.webp","drape-look04.webp","drape-logos.webp","drape-post08.webp","drape-detail.webp"], "g-3")) + \
+           "براند أزياء محتشمة من الصفر: الاسم، ونظام اللوجو، وألوان ترابية بلمسة نبيتي، و١٠ لوكات حملة من صور موبايل للقطع على الشماعة، من غير سيشن تصوير.",
+           "A modest-fashion label from zero: name, logo system, earthy palette with a wine accent, and 10 campaign looks made from phone photos of the pieces on hangers, with no photoshoot.",
+           imgs(lang, ["drape-look02.webp","drape-before.webp","drape-look04.webp","drape-logos.webp","drape-post08.webp","drape-detail.webp"], "g-3")) + \
       case(lang, "NOBY Sports", "إعادة براندينج · حملة إطلاق", "Rebrand · Launch campaign",
            "محل ملابس رياضية اتعمله هوية الأسد وستايل حملة سينمائي داكن، وتصميمات إطلاق جاهزة للفيد والستوري.",
            "A sportswear store relaunched with a lion identity, a dark cinematic campaign style, and launch creatives for feed and stories.",
@@ -459,7 +459,7 @@ def sample(lang):
     <div class="cta-row reveal"><a class="btn solid js-wa" data-msg="{msg}" href="#contact">{T(lang,'ابعت صورتك على واتساب','Send your photo on WhatsApp')}</a><a class="btn line" href="#packages">{T(lang,'شوف الباقات','See packages')}</a></div>
   </div>
   <div class="ba reveal">
-    <figure><img src="{p}assets/img/drape-flatlay.webp" alt="{T(lang,'قبل: صورة القطعة','Before: the garment photo')}"><figcaption>{T(lang,'قبل','Before')}</figcaption></figure>
+    <figure><img src="{p}assets/img/drape-before.webp" alt="{T(lang,'قبل: صور موبايل للقطع على الشماعة','Before: phone photos of the pieces on hangers')}"><figcaption>{T(lang,'قبل','Before')}</figcaption></figure>
     <span class="ba-arr" aria-hidden="true">{T(lang,'←','→')}</span>
     <figure><img src="{p}assets/img/drape-look02.webp" alt="{T(lang,'بعد: على موديل بإضاءة استوديو','After: on a model in studio light')}"><figcaption class="after">{T(lang,'بعد','After')}</figcaption></figure>
     <p class="ba-note">{T(lang,'نفس القطعة بالظبط، من غير سيشن تصوير — من شغلنا لبراند Drapé Atelier.','The exact same piece, with no photoshoot — our work for Drapé Atelier.')}</p>
