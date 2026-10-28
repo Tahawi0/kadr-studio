@@ -4,7 +4,17 @@
 
   // WhatsApp buttons
   const hello = ar ? "أهلًا كادر، عايز أعرف تفاصيل أكتر عن خدماتكم." : "Hi Kadr Studio, I'd like to know more about your services.";
-  document.querySelectorAll(".js-wa").forEach((a) => { a.href = wa(hello); a.target = "_blank"; a.rel = "noopener"; });
+  document.querySelectorAll(".js-wa").forEach((a) => { a.href = wa(a.dataset.msg || hello); a.target = "_blank"; a.rel = "noopener"; });
+
+  // Count WhatsApp clicks (only if GoatCounter / Meta Pixel are switched on)
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href*="wa.me"]');
+    if (!a) return;
+    const where = location.pathname.split("/").pop() || "index.html";
+    if (window.goatcounter && window.goatcounter.count)
+      window.goatcounter.count({ path: "wa-click/" + (ar ? "ar/" : "en/") + where, title: "WhatsApp click", event: true });
+    if (window.fbq) window.fbq("track", "Contact");
+  });
 
   // Reveal on scroll (staggered within each parent)
   const els = document.querySelectorAll(".reveal");
