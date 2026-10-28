@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>درب موتورز — نموذج تطبيق أندرويد</title>
+<meta name="description" content="نموذج تفاعلي لتطبيق معرض سيارات: الموديلات، والتفاصيل، وحاسبة القسط، وحجز تجربة القيادة. تصميم Kadr Studio — بيانات وهمية.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c0d0f;--s1:#15171a;--s2:#1d2024;--line:#2a2d33;--ink:#f2f2ef;--mu:#9a9ea6;--ac:#e2b13c;--ac-ink:#141210;--ok:#5cc28a}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#050506;font-family:Alexandria,system-ui,sans-serif;color:var(--ink);display:grid;place-items:center}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.stage{display:flex;gap:40px;align-items:center}
+.note{max-width:300px;color:var(--mu);font-size:14px;line-height:1.8}
+.note b{color:var(--ink);font-size:20px;display:block;margin-bottom:8px}
+.note a{color:var(--ac)}
+.device{width:390px;height:844px;background:var(--bg);border-radius:46px;overflow:hidden;position:relative;outline:10px solid #1a1b1e;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+body.bare{display:block;background:var(--bg)} body.bare .stage{display:block} body.bare .note{display:none} body.bare .device{border-radius:0;outline:0;box-shadow:none}
+.status{position:absolute;top:0;inset-inline:0;height:40px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:13px;font-weight:600;z-index:30;direction:ltr}
+.screen{position:absolute;inset:0;padding-top:40px;overflow-y:auto;overflow-x:hidden;transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .38s;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.off{transform:translateX(-30%);opacity:0;pointer-events:none}
+.screen.next{transform:translateX(100%);opacity:1;pointer-events:none}
+.pad{padding:12px 20px 110px}
+.row{display:flex;align-items:center;gap:10px}
+.between{display:flex;justify-content:space-between;align-items:center}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--ac);color:var(--ac-ink);display:grid;place-items:center;font-weight:800}
+h1{font-size:26px;font-weight:800;line-height:1.3}
+h2{font-size:19px;font-weight:600}
+.mu{color:var(--mu)}
+.icon{width:42px;height:42px;border-radius:50%;background:var(--s1);display:grid;place-items:center}
+.icon svg{width:20px;height:20px;stroke:var(--ink);fill:none;stroke-width:1.8}
+.search{margin-top:18px;background:var(--s1);border-radius:16px;padding:14px 16px;color:var(--mu);font-size:14px;display:flex;gap:10px;align-items:center}
+.chips{display:flex;gap:8px;margin-top:16px;overflow-x:auto}
+.chip{padding:9px 16px;border-radius:999px;background:var(--s1);font-size:13px;white-space:nowrap}
+.chip.on{background:var(--ink);color:var(--bg);font-weight:600}
+.banner{margin-top:18px;border-radius:22px;background:var(--ac);color:var(--ac-ink);padding:18px;position:relative;overflow:hidden;min-height:132px}
+.banner b{font-size:19px;font-weight:800;display:block;line-height:1.25}
+.banner img{position:absolute;left:0;top:0;width:44%;height:100%;object-fit:cover}
+.banner>*:not(img){position:relative;margin-left:44%}
+.banner{padding-inline-end:16px}
+.card{margin-top:14px;background:var(--s1);border-radius:22px;overflow:hidden;text-align:start;width:100%;display:block}
+.card img{width:100%;height:170px;object-fit:cover}
+.card .in{padding:14px 16px 16px}
+.price{font-size:13px;color:var(--mu)}
+.price b{color:var(--ink);font-size:15px}
+.tag{font-size:12px;color:var(--ac)}
+.nav{position:absolute;bottom:0;inset-inline:0;height:86px;background:rgba(12,13,15,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:flex-start;padding-top:12px;z-index:20}
+.nav button{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--mu);width:70px}
+.nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
+.nav button.on{color:var(--ac)}
+.hero{position:relative;height:300px;margin-top:-40px}
+.hero img{width:100%;height:100%;object-fit:cover}
+.hero .top{position:absolute;top:52px;inset-inline:16px;display:flex;justify-content:space-between}
+.hero .icon{background:rgba(12,13,15,.6);backdrop-filter:blur(6px)}
+.colors{display:flex;gap:12px;margin-top:14px}
+.dot{width:30px;height:30px;border-radius:50%;outline:2px solid transparent;outline-offset:3px}
+.dot.on{outline-color:var(--ac)}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.spec{background:var(--s1);border-radius:16px;padding:14px 10px;text-align:center}
+.spec b{display:block;font-size:17px}
+.spec span{font-size:11px;color:var(--mu)}
+.cta-bar{position:absolute;bottom:0;inset-inline:0;padding:14px 20px 28px;background:var(--bg);border-top:1px solid var(--line);display:flex;gap:10px;z-index:20}
+.btn{flex:1;border-radius:16px;padding:16px;font-weight:600;font-size:15px;text-align:center}
+.btn.pri{background:var(--ac);color:var(--ac-ink)}
+.btn.sec{background:var(--s1)}
+.big{font-size:44px;font-weight:800;color:var(--ac);line-height:1.2}
+.panel{background:var(--s1);border-radius:22px;padding:18px;margin-top:16px}
+input[type=range]{width:100%;accent-color:var(--ac);margin-top:10px}
+.seg{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
+.seg button{background:var(--s2);border-radius:12px;padding:10px 0;font-size:14px}
+.seg button.on{background:var(--ac);color:var(--ac-ink);font-weight:600}
+.kv{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.kv:last-child{border:0}
+.opt{display:flex;gap:12px;align-items:center;background:var(--s1);border-radius:18px;padding:16px;margin-top:10px;outline:1.5px solid transparent;width:100%;text-align:start}
+.opt.on{outline-color:var(--ac)}
+.days{display:flex;gap:8px;margin-top:10px;overflow-x:auto}
+.day{min-width:62px;background:var(--s1);border-radius:16px;padding:10px 0;text-align:center;font-size:12px}
+.day b{display:block;font-size:20px}
+.day.on{background:var(--ac);color:var(--ac-ink)}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.slot{background:var(--s1);border-radius:12px;padding:12px 0;font-size:14px}
+.slot.on{background:var(--ink);color:var(--bg);font-weight:600}
+.slot:disabled{opacity:.3;text-decoration:line-through}
+.sheet{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;z-index:40;opacity:0;pointer-events:none;transition:opacity .3s}
+.sheet.show{opacity:1;pointer-events:auto}
+.sheet>div{background:var(--s1);width:100%;border-radius:28px 28px 0 0;padding:28px 22px 34px;text-align:center;transform:translateY(40px);transition:transform .35s}
+.sheet.show>div{transform:none}
+.okc{width:68px;height:68px;border-radius:50%;background:var(--ok);display:grid;place-items:center;margin:0 auto 14px}
+.okc svg{width:34px;height:34px;stroke:#0c0d0f;stroke-width:3;fill:none}
+.booking{display:flex;gap:12px;align-items:center;background:var(--s1);border-radius:18px;padding:12px;margin-top:10px}
+.booking img{width:86px;height:64px;border-radius:12px;object-fit:cover}
+.pill{font-size:11px;border-radius:999px;padding:3px 10px;background:#1f3328;color:var(--ok)}
+.splash{position:absolute;inset:0;margin-top:-40px}
+.splash img{width:100%;height:100%;object-fit:cover}
+.splash .grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,13,15,.7),transparent 30%,transparent 50%,var(--bg) 82%)}
+.splash .txt{position:absolute;bottom:56px;inset-inline:24px}
+.splash h1{font-size:40px;line-height:1.2;margin-top:18px}
+.splash .btn{display:block;margin-top:26px;width:100%}
+.dots{display:flex;gap:6px;margin-top:20px}.dots i{width:8px;height:8px;border-radius:4px;background:var(--line)}.dots i.on{width:24px;background:var(--ac)}
+@media (max-width:860px){.note{display:none}}
+@media (max-width:440px){body{display:block}.device{width:100vw;height:100vh;height:100dvh;border-radius:0;outline:0}}
+</style>
+</head>
+<body>
+<div class="stage">
+<div class="note"><b>درب موتورز — تطبيق أندرويد</b>نموذج تفاعلي لتطبيق معرض سيارات من تصميم <a href="../../tech.html">Kadr Studio</a>. جرّب: اختار عربية، احسب القسط، واحجز تجربة قيادة.<br><br>الاسم والعربيات والأسعار من تصميمنا وبيانات وهمية.</div>
+<div class="device" id="device">
+  <div class="status"><span>9:41</span><span>●●● 5G ▮</span></div>
+
+  <!-- 1 splash -->
+  <section class="screen" id="s-splash">
+    <div class="splash"><img src="img/splash.webp" alt=""><div class="grad"></div>
+      <div class="txt"><div class="row"><span class="mark">د</span><span style="font-size:20px;font-weight:300"><b style="font-weight:800">درب</b> موتورز</span></div>
+        <h1>عربيتك الجاية<br>في جيبك.</h1><p class="mu" style="margin-top:10px">تصفّح الموديلات، واحسب قسطك، واحجز تجربة قيادة من غير ما تتحرك.</p>
+        <div class="dots"><i class="on"></i><i></i><i></i></div>
+        <button class="btn pri" data-go="home">ابدأ</button></div></div>
+  </section>
+
+  <!-- 2 home -->
+  <section class="screen next" id="s-home">
+    <div class="pad">
+      <div class="between"><div><p class="mu" style="font-size:13px;margin-bottom:6px;line-height:1.4">مساء الخير</p><h1>أهلًا يا أحمد</h1></div><div class="row"><button class="icon" aria-label="إشعارات"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/></svg></button></div></div>
+      <div class="search"><svg width="18" height="18" viewBox="0 0 24 24" stroke="#9a9ea6" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>دوّر على موديل أو فئة</div>
+      <div class="chips"><button class="chip on">الكل</button><button class="chip">سيدان</button><button class="chip">كروس أوفر</button><button class="chip">SUV</button><button class="chip">كهربا</button></div>
+      <div class="banner"><span style="font-size:12px;font-weight:600">عرض نوفمبر</span><b>مقدّم من ١٠٪<br>وتقسيط ٧ سنين</b><span style="font-size:12px">على كل الموديلات</span><img src="img/sedra.webp" alt=""></div>
+      <div class="between" style="margin-top:22px"><h2>الموديلات</h2><span class="mu" style="font-size:13px">٣ موديلات</span></div>
+      <div id="cards"></div>
+    </div>
+  </section>
+
+  <!-- 3 details -->
+  <section class="screen next" id="s-car">
+    <div class="hero"><img id="carImg" src="img/wadi.webp" alt=""><div class="top"><button class="icon" data-go="home" aria-label="رجوع"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><button class="icon" aria-label="حفظ"><svg viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a5 5 0 0 1 8-3 5 5 0 0 1 8 3c0 6-8 11-8 11z"/></svg></button></div></div>
+    <div class="pad" style="padding-bottom:130px">
+      <p class="tag" id="carType">كروس أوفر</p><div class="between"><h1 style="font-size:32px" id="carName">وادي</h1><div style="text-align:end"><p class="mu" style="font-size:12px">السعر</p><b id="carPrice" style="font-size:17px">١٬٤٨٠٬٠٠٠ ج.م</b></div></div>
+      <p class="mu" style="font-size:13px;margin-top:14px">اللون</p>
+      <div class="colors" id="colors"><button class="dot on" style="background:#a08a6a" aria-label="رملي"></button><button class="dot" style="background:#e9e7e2" aria-label="أبيض"></button><button class="dot" style="background:#1b1c1f;border:1px solid #333" aria-label="أسود"></button><button class="dot" style="background:#3b4a5a" aria-label="أزرق"></button></div>
+      <div class="specs" id="specs"></div>
+      <div class="panel"><div class="between"><span class="mu" style="font-size:13px">قسط يبدأ من</span><b id="carFrom" style="color:var(--ac);font-size:20px"></b></div><p class="mu" style="font-size:12px;margin-top:4px">مقدّم ١٠٪ · ٧ سنين</p></div>
+      <p style="margin-top:18px;line-height:1.9;color:#cfd1d4;font-size:14px" id="carDesc"></p>
+    </div>
+    <div class="cta-bar"><button class="btn sec" data-go="calc">احسب القسط</button><button class="btn pri" data-go="book">احجز تجربة</button></div>
+  </section>
+
+  <!-- 4 calc -->
+  <section class="screen next" id="s-calc">
+    <div class="pad">
+      <div class="between"><button class="icon" data-back aria-label="رجوع"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><h2>حاسبة القسط</h2><span style="width:42px"></span></div>
+      <div class="panel" style="text-align:center;padding:26px 18px"><p class="mu" style="font-size:13px">القسط الشهري لـ <span id="cName">وادي</span></p><p class="big" id="cMonthly">٢٧٬٩٩٦</p><p class="mu" style="font-size:13px">ج.م / شهر</p></div>
+      <div class="panel"><div class="between"><span>المقدّم</span><b id="cDownLbl" style="color:var(--ac)">١٠٪</b></div><input type="range" id="cDown" min="10" max="50" step="5" value="10" aria-label="المقدم"><div class="between mu" style="font-size:11px"><span>١٠٪</span><span>٥٠٪</span></div></div>
+      <div class="panel"><span>مدة التقسيط</span><div class="seg" id="cYears"><button data-y="1">سنة</button><button data-y="2">٢</button><button data-y="3">٣</button><button data-y="5">٥</button><button data-y="7" class="on">٧</button></div></div>
+      <div class="panel"><div class="kv"><span class="mu">سعر العربية</span><b id="kPrice"></b></div><div class="kv"><span class="mu">المقدّم</span><b id="kDown"></b></div><div class="kv"><span class="mu">مبلغ التمويل</span><b id="kLoan"></b></div></div>
+      <p class="mu" style="font-size:11px;margin-top:12px;line-height:1.8">قيمة تقديرية بفائدة متناقصة ١٨٪ تقريبًا، والقيمة النهائية حسب جهة التمويل.</p>
+    </div>
+    <div class="cta-bar"><button class="btn pri" data-go="book">احجز تجربة قيادة</button></div>
+  </section>
+
+  <!-- 5 book -->
+  <section class="screen next" id="s-book">
+    <div class="pad" style="padding-bottom:130px">
+      <div class="between"><button class="icon" data-back aria-label="رجوع"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button><h2>تجربة قيادة</h2><span style="width:42px"></span></div>
+      <p class="mu" style="font-size:13px;margin-top:18px">مكان التجربة</p>
+      <button class="opt on" data-loc><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 21V5l8-2v18M12 9h8v12M8 8v1M8 12v1M8 16v1M16 13v1M16 17v1"/></svg></span><div><b>في المعرض</b><p class="mu" style="font-size:12px">التجمع الخامس · شارع التسعين</p></div></button>
+      <button class="opt" data-loc><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9H3z"/><path d="M10 20v-5h4v5"/></svg></span><div><b>عند البيت</b><p class="mu" style="font-size:12px">نجيب العربية لحد بابك في القاهرة والجيزة</p></div></button>
+      <p class="mu" style="font-size:13px;margin-top:18px">اليوم</p><div class="days" id="days"></div>
+      <p class="mu" style="font-size:13px;margin-top:18px">الساعة</p><div class="slots" id="slots"></div>
+    </div>
+    <div class="cta-bar"><button class="btn pri" id="confirm">تأكيد الحجز</button></div>
+    <div class="sheet" id="done"><div><div class="okc"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg></div><h1>تم الحجز</h1><p class="mu" style="margin-top:8px;line-height:1.8" id="doneTxt"></p><button class="btn pri" style="display:block;width:100%;margin-top:22px" data-go="me">حجوزاتي</button></div></div>
+  </section>
+
+  <!-- 6 me -->
+  <section class="screen next" id="s-me">
+    <div class="pad">
+      <div class="row" style="margin-top:6px"><div style="width:58px;height:58px;border-radius:50%;background:var(--ac);color:var(--ac-ink);display:grid;place-items:center;font-size:24px;font-weight:800">أ</div><div><h1 style="font-size:22px">أحمد سمير</h1><p class="mu" style="font-size:13px">عضو منذ ٢٠٢٦</p></div></div>
+      <div class="between" style="margin-top:24px"><h2>حجوزاتي</h2></div><div id="bookings"></div>
+      <div class="between" style="margin-top:24px"><h2>المحفوظات</h2></div>
+      <div class="booking"><img src="img/rimal.webp" alt=""><div style="flex:1"><b>رمال</b><p class="mu" style="font-size:12px">SUV ٧ ركاب · قسط من ٣٦٬٨٨٦ ج.م</p></div></div>
+      <div class="panel" style="margin-top:24px"><div class="kv"><span>الإشعارات</span><span class="mu">مفعّلة</span></div><div class="kv"><span>اللغة</span><span class="mu">العربية</span></div><div class="kv"><span>تواصل مع المبيعات</span><span class="mu">واتساب</span></div></div>
+    </div>
+  </section>
+
+  <nav class="nav" id="nav">
+    <button data-go="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9H3z"/></svg>الرئيسية</button>
+    <button data-go="calc"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/></svg>الحاسبة</button>
+    <button data-go="book"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>تجربة قيادة</button>
+    <button data-go="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>حسابي</button>
+  </nav>
+</div>
+</div>
+<script>
+(function(){
+  const Q=new URLSearchParams(location.search); if (Q.has("bare")) document.body.classList.add("bare"); if (Q.get("z")) document.body.style.zoom=Q.get("z");
+  const CARS={sedra:{name:"سِدرة",type:"سيدان",price:1150000,specs:[["١٥٠","حصان"],["٦٫٢ لتر","لكل ١٠٠ كم"],["٥","مقاعد"]],desc:"سيدان عائلية هادية في الزحمة وموفّرة في البنزين، بشاشة ١٢ بوصة وكاميرا ٣٦٠ وفرامل طوارئ ذكية."},
+    wadi:{name:"وادي",type:"كروس أوفر",price:1480000,specs:[["١٨٠","حصان"],["٧ لتر","لكل ١٠٠ كم"],["٥","مقاعد"]],desc:"كروس أوفر عالية عن الأرض ومريحة للمدينة والسفر، بشنطة واسعة وأنظمة أمان كاملة ومساعد ركن."},
+    rimal:{name:"رمال",type:"SUV ٧ ركاب",price:1950000,specs:[["٢٤٥","حصان"],["دفع","رباعي"],["٧","مقاعد"]],desc:"SUV بـ٧ مقاعد ودفع رباعي للعيلة الكبيرة، بتكييف لكل صف وشحن لاسلكي وسقف بانوراما."}};
+  const ar=n=>Math.round(n).toLocaleString("ar-EG"), egp=n=>ar(n)+" ج.م";
+  const monthly=(p,d,y)=>{const L=p*(1-d/100),r=.18/12,n=y*12;return L*r/(1-Math.pow(1+r,-n));};
+  let car="wadi", down=10, years=7, hist=["splash"], cur="splash";
+  const $=s=>document.querySelector(s);
+  // cards
+  $("#cards").innerHTML=Object.entries(CARS).map(([k,c])=>`<button class="card" data-car="${k}"><img src="img/${k}.webp" alt=""><div class="in"><div class="between"><div><p class="tag">${c.type}</p><h2 style="font-size:21px">${c.name}</h2></div><div style="text-align:end"><p class="price">قسط من</p><b style="color:var(--ac)">${ar(monthly(c.price,10,7))} ج.م</b></div></div><p class="price" style="margin-top:6px">السعر <b>${egp(c.price)}</b></p></div></button>`).join("");
+  function show(id,back){
+    if(id===cur) return;
+    const a=$("#s-"+cur), b=$("#s-"+id);
+    b.classList.remove("next","off"); b.scrollTop=0;
+    a.classList.add(back?"next":"off");
+    if(!back) hist.push(id); cur=id;
+    $("#nav").style.display=["home","me"].includes(id)?"flex":"none";
+    document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("on",x.dataset.go===id));
+    if(id==="calc") calc();
+  }
+  function setCar(k){car=k;const c=CARS[k];$("#carImg").src="img/"+k+".webp";$("#carName").textContent=c.name;$("#carType").textContent=c.type;$("#carPrice").textContent=egp(c.price);
+    $("#specs").innerHTML=c.specs.map(s=>`<div class="spec"><b>${s[0]}</b><span>${s[1]}</span></div>`).join("");$("#carFrom").textContent=ar(monthly(c.price,10,7))+" ج.م";$("#carDesc").textContent=c.desc;}
+  function calc(){const c=CARS[car],m=monthly(c.price,down,years);$("#cName").textContent=c.name;$("#cMonthly").textContent=ar(m);$("#cDownLbl").textContent=ar(down)+"٪";$("#kPrice").textContent=egp(c.price);$("#kDown").textContent=egp(c.price*down/100);$("#kLoan").textContent=egp(c.price*(1-down/100));}
+  document.addEventListener("click",e=>{
+    const cd=e.target.closest("[data-car]"); if(cd){setCar(cd.dataset.car);show("car");return;}
+    const g=e.target.closest("[data-go]"); if(g){$("#done").classList.remove("show");show(g.dataset.go,g.dataset.go==="home"&&cur==="car");return;}
+    if(e.target.closest("[data-back]")){hist.pop();const p=hist[hist.length-1]||"home";hist.pop();show(p,true);hist.push(p);return;}
+    const d=e.target.closest(".dot"); if(d){document.querySelectorAll(".dot").forEach(x=>x.classList.toggle("on",x===d));}
+    const ch=e.target.closest(".chip"); if(ch){document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("on",x===ch));}
+    const y=e.target.closest("#cYears button"); if(y){years=+y.dataset.y;document.querySelectorAll("#cYears button").forEach(x=>x.classList.toggle("on",x===y));calc();}
+    const l=e.target.closest("[data-loc]"); if(l){document.querySelectorAll("[data-loc]").forEach(x=>x.classList.toggle("on",x===l));}
+    const dy=e.target.closest(".day"); if(dy){document.querySelectorAll(".day").forEach(x=>x.classList.toggle("on",x===dy));}
+    const sl=e.target.closest(".slot"); if(sl&&!sl.disabled){document.querySelectorAll(".slot").forEach(x=>x.classList.toggle("on",x===sl));}
+  });
+  $("#cDown").addEventListener("input",e=>{down=+e.target.value;calc();});
+  // days & slots
+  const DN=["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];let dh="";const t=new Date();
+  for(let i=1,c=0;c<6;i++){const d=new Date(t);d.setDate(t.getDate()+i);if(d.getDay()===5)continue;dh+=`<button class="day${c===0?" on":""}" data-d="${DN[d.getDay()]} ${ar(d.getDate())}/${ar(d.getMonth()+1)}">${DN[d.getDay()]}<b>${ar(d.getDate())}</b></button>`;c++;}
+  $("#days").innerHTML=dh;
+  $("#slots").innerHTML=["١٢:٠٠","١:٠٠","٢:٠٠","٤:٠٠","٥:٠٠","٦:٠٠","٧:٠٠","٨:٠٠","٩:٠٠"].map((s,i)=>`<button class="slot${i===3?" on":""}"${[1,5].includes(i)?" disabled":""}>${s}</button>`).join("");
+  const bookings=[];
+  $("#confirm").addEventListener("click",()=>{const d=$(".day.on").dataset.d,s=$(".slot.on").textContent,loc=$("[data-loc].on b").textContent;
+    $("#doneTxt").innerHTML=`تجربة قيادة <b>${CARS[car].name}</b> ${loc}<br>${d} · الساعة ${s} م<br>هيكلمك مستشار المبيعات على واتساب للتأكيد.`;
+    bookings.unshift({car,d,s,loc});$("#bookings").innerHTML=bookings.map(b=>`<div class="booking"><img src="img/${b.car}.webp" alt=""><div style="flex:1"><b>تجربة ${CARS[b.car].name}</b><p class="mu" style="font-size:12px">${b.d} · ${b.s} م · ${b.loc}</p></div><span class="pill">مؤكد</span></div>`).join("");
+    $("#done").classList.add("show");});
+  $("#bookings").innerHTML=`<p class="mu" style="font-size:13px;margin-top:8px">لسه مفيش حجوزات.</p>`;
+  setCar("wadi");
+  $("#nav").style.display="none";
+})();
+</script>
+</body>
+</html>
