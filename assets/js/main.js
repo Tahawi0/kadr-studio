@@ -1,6 +1,6 @@
 // ===== Settings: edit these two lines =====
 const WHATSAPP = "201555014697";          // international format, no + (e.g. 201012345678)
-const EMAIL = "hello@kadr.studio";          // contact email
+const EMAIL = "kadr.studio6@gmail.com";          // contact email
 // ==========================================
 
 const AR = {
