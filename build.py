@@ -667,6 +667,8 @@ def sample(lang):
     <p class="ba-note">{T(lang,'نفس القطعة بالظبط، من غير سيشن تصوير — من شغلنا لبراند Drapé Atelier.','The exact same piece, with no photoshoot — our work for Drapé Atelier.')}</p>
   </div>
 </section>
+<section class="bts wrap"><div class="bts-in"><div><p class="kicker reveal">{T(lang,'ورا الكواليس','Behind the scenes')}</p><h2 class="reveal">{T(lang,'من الشماعة للحملة.','From hanger to campaign.')}</h2><p class="lede reveal">{T(lang,'شوف المراحل كلها في ١٦ ثانية: صورة الموبايل، وترتيب القطع، والموديل، والمراجعة اليدوية لكل تفصيلة.','See every stage in 16 seconds: the phone photo, the arrangement, the model, and a hand check of every detail.')}</p></div>
+<video class="reveal" src="{p}assets/video/drape-bts.mp4" poster="{p}assets/img/drape-bts-poster.webp" controls muted playsinline preload="none"></video></div></section>
 <section class="process wrap"><h2 class="reveal">{T(lang,'٣ خطوات بس','Just 3 steps')}</h2><ol class="steps fs-steps">{st}</ol>
 <p class="reveal fs-help">{T(lang,'محتاج تعرف تصوّر صح؟','Want to shoot it right?')} <a href="photo-guide.html">{T(lang,'شوف دليل التصوير بالموبايل','See the phone photo guide')}</a> · {T(lang,'جاهز تطلب؟','Ready to order?')} <a href="order.html">{T(lang,'جهّز طلبك','Build your order')}</a></p></section>
 <section class="fs-band"><div class="wrap fs-band-in">
