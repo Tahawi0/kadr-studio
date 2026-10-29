@@ -16,7 +16,7 @@ const f=document.getElementById('lead'),err=document.getElementById('lErr');
 f.addEventListener('submit',e=>{e.preventDefault();const n=f.name.value.trim(),p=f.phone.value.replace(/\D/g,'');
 if(n.length<2||!/^01[0125]\d{8}$/.test(p)){err.hidden=false;err.textContent='من فضلك اكتب اسمك ورقم موبايل مصري صحيح (١١ رقمًا يبدأ بـ 01).';return;}
 err.hidden=true;
-const lead={source:'mada-view-landing',project:D.project.id,name:n,phone:p,unit:f.unit.value,budget:f.budget.value,time:f.time.value,calc:last,ts:new Date().toISOString()};
+if(f.website.value)return;const lead={source:'mada-view-landing',website:f.website.value,project:D.project.id,name:n,phone:p,unit:f.unit.value,budget:f.budget.value,time:f.time.value,calc:last,ts:new Date().toISOString()};
 // Phase 2: POST lead to the n8n webhook that creates the record in Dar Brokers' CRM.
 if(window.MADA_HOOK){fetch(window.MADA_HOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(lead)}).catch(()=>{});}
 const msg='طلب تجريبي — مدى ڤيو (مشروع مفاهيمي)\nالاسم: '+n+'\nالموبايل: '+p+'\nالوحدة: '+lead.unit+'\nالميزانية: '+lead.budget+'\nأنسب وقت: '+lead.time+(last?'\nالحاسبة: مقدم '+last.down+'٪ على '+last.years+' سنوات — قسط شهري '+last.monthly.toLocaleString('en-US')+' جنيه':'');

@@ -1,0 +1,403 @@
+{
+ "name": "Dar Brokers — Lead routing (Mada View + Dar site)",
+ "nodes": [
+  {
+   "id": "2e990d74-2fda-4c55-9392-000f8638027e",
+   "name": "Lead webhook",
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2,
+   "position": [
+    0,
+    300
+   ],
+   "parameters": {
+    "httpMethod": "POST",
+    "path": "dar-leads",
+    "responseMode": "responseNode",
+    "options": {
+     "allowedOrigins": "https://tahawi0.github.io"
+    }
+   },
+   "webhookId": "b534b60e-3c63-4933-a68d-a13773b4c6ac"
+  },
+  {
+   "id": "288e50d4-5ce2-4773-ba8d-54d0bca993ee",
+   "name": "Normalize & validate",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    220,
+    300
+   ],
+   "parameters": {
+    "jsCode": "// Validate + normalize leads coming from Mada View and Dar Brokers forms.\n// Browser forms can't hold a secret, so we rely on strict validation + a honeypot + allowed origin.\nconst out = [];\nfor (const item of $input.all()) {\n  const b = item.json.body || item.json;\n  const name = String(b.name || '').trim().slice(0, 80);\n  let phone = String(b.phone || '').replace(/\\D/g, '');\n  if (phone.startsWith('20')) phone = '0' + phone.slice(2);\n  const honeypot = String(b.website || '').trim();\n  const valid = name.length >= 2 && /^01[0125]\\d{8}$/.test(phone) && !honeypot;\n  const source = ['mada-view-landing', 'dar-brokers-site'].includes(b.source) ? b.source : 'unknown';\n  out.push({ json: {\n    valid,\n    lead_id: 'L-' + Date.now().toString(36),\n    received_at: new Date().toISOString(),\n    source,\n    project: source === 'mada-view-landing' ? 'مدى ڤيو' : (b.unit_id || '').startsWith('mada-') ? 'مدى ڤيو' : 'ريسيل/دار',\n    name, phone, phone_intl: '+2' + phone,\n    unit: String(b.unit || '').slice(0, 80),\n    budget: String(b.budget || '').slice(0, 40),\n    contact_time: String(b.time || '').slice(0, 30),\n    monthly_from_calc: b.calc && b.calc.monthly ? Number(b.calc.monthly) : '',\n  }});\n}\nreturn out;"
+   }
+  },
+  {
+   "id": "9150a357-f174-4fd6-a3ac-6bd8cdfd45da",
+   "name": "Valid?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2,
+   "position": [
+    440,
+    300
+   ],
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "typeValidation": "strict"
+     },
+     "conditions": [
+      {
+       "id": "97ea0656-fa73-4dac-b2d6-b05092dea917",
+       "leftValue": "={{ $json.valid }}",
+       "rightValue": true,
+       "operator": {
+        "type": "boolean",
+        "operation": "true",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    }
+   }
+  },
+  {
+   "id": "5ba6d727-8469-453d-b3c7-ba95fd083bfb",
+   "name": "Reply 400",
+   "type": "n8n-nodes-base.respondToWebhook",
+   "typeVersion": 1.1,
+   "position": [
+    660,
+    460
+   ],
+   "parameters": {
+    "respondWith": "json",
+    "responseBody": "={{ { ok: false, error: 'invalid' } }}",
+    "options": {
+     "responseCode": 400
+    }
+   }
+  },
+  {
+   "id": "ac924e38-85c8-4b89-973a-5844c1d0b6c8",
+   "name": "Reply 200",
+   "type": "n8n-nodes-base.respondToWebhook",
+   "typeVersion": 1.1,
+   "position": [
+    660,
+    200
+   ],
+   "parameters": {
+    "respondWith": "json",
+    "responseBody": "={{ { ok: true, lead_id: $json.lead_id } }}",
+    "options": {}
+   }
+  },
+  {
+   "id": "fdc36e16-ff7c-431d-a364-50752c49565a",
+   "name": "Find by phone",
+   "type": "n8n-nodes-base.googleSheets",
+   "typeVersion": 4.5,
+   "position": [
+    880,
+    200
+   ],
+   "parameters": {
+    "documentId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "PUT_DAR_CRM_SHEET_ID"
+    },
+    "sheetName": {
+     "__rl": true,
+     "mode": "name",
+     "value": "Leads"
+    },
+    "filtersUI": {
+     "values": [
+      {
+       "lookupColumn": "phone",
+       "lookupValue": "={{ $('Normalize & validate').first().json.phone }}"
+      }
+     ]
+    },
+    "options": {}
+   },
+   "alwaysOutputData": true
+  },
+  {
+   "id": "a4f4734b-4010-40f1-844d-a2af9dd39142",
+   "name": "Already a lead?",
+   "type": "n8n-nodes-base.if",
+   "typeVersion": 2,
+   "position": [
+    1100,
+    200
+   ],
+   "parameters": {
+    "conditions": {
+     "options": {
+      "caseSensitive": true,
+      "typeValidation": "loose"
+     },
+     "conditions": [
+      {
+       "id": "97584422-c45c-40d0-a950-a8cac19eb699",
+       "leftValue": "={{ $json.lead_id }}",
+       "rightValue": "",
+       "operator": {
+        "type": "string",
+        "operation": "exists",
+        "singleValue": true
+       }
+      }
+     ],
+     "combinator": "and"
+    }
+   }
+  },
+  {
+   "id": "742a2749-781c-4fc0-9c6b-8d6af82c121c",
+   "name": "Log repeat request",
+   "type": "n8n-nodes-base.googleSheets",
+   "typeVersion": 4.5,
+   "position": [
+    1320,
+    80
+   ],
+   "parameters": {
+    "operation": "update",
+    "documentId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "PUT_DAR_CRM_SHEET_ID"
+    },
+    "sheetName": {
+     "__rl": true,
+     "mode": "name",
+     "value": "Leads"
+    },
+    "columns": {
+     "mappingMode": "defineBelow",
+     "value": {
+      "phone": "={{ $json.phone }}",
+      "last_request": "={{ $('Normalize & validate').first().json.unit }} — {{ $now.toISO() }}",
+      "status": "طلب متكرر — كلّمه تاني"
+     },
+     "matchingColumns": [
+      "phone"
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "0eb70186-43d5-434a-aa9c-a6a2d65eef4c",
+   "name": "Count leads",
+   "type": "n8n-nodes-base.googleSheets",
+   "typeVersion": 4.5,
+   "position": [
+    1320,
+    320
+   ],
+   "parameters": {
+    "documentId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "PUT_DAR_CRM_SHEET_ID"
+    },
+    "sheetName": {
+     "__rl": true,
+     "mode": "name",
+     "value": "Leads"
+    },
+    "options": {}
+   },
+   "alwaysOutputData": true,
+   "executeOnce": true
+  },
+  {
+   "id": "f3489551-8c7c-4268-ae8d-e0671c7a2396",
+   "name": "Assign agent",
+   "type": "n8n-nodes-base.code",
+   "typeVersion": 2,
+   "position": [
+    1540,
+    320
+   ],
+   "parameters": {
+    "jsCode": "// Round-robin: pick the next agent based on how many leads already exist.\nconst AGENTS = [\n  { name: 'مستشار ١', telegram_chat_id: 'PUT_CHAT_ID_1' },\n  { name: 'مستشار ٢', telegram_chat_id: 'PUT_CHAT_ID_2' },\n  { name: 'مستشار ٣', telegram_chat_id: 'PUT_CHAT_ID_3' },\n];\nconst total = $('Count leads').all().length;            // rows already in the sheet\nconst lead = $('Normalize & validate').first().json;\nconst agent = AGENTS[total % AGENTS.length];\nreturn [{ json: { ...lead, status: 'جديد', agent: agent.name, agent_chat: agent.telegram_chat_id } }];"
+   }
+  },
+  {
+   "id": "994c9549-982c-4254-b245-2c36a679e3c1",
+   "name": "Add to CRM",
+   "type": "n8n-nodes-base.googleSheets",
+   "typeVersion": 4.5,
+   "position": [
+    1760,
+    320
+   ],
+   "parameters": {
+    "operation": "append",
+    "documentId": {
+     "__rl": true,
+     "mode": "id",
+     "value": "PUT_DAR_CRM_SHEET_ID"
+    },
+    "sheetName": {
+     "__rl": true,
+     "mode": "name",
+     "value": "Leads"
+    },
+    "columns": {
+     "mappingMode": "autoMapInputData",
+     "value": {}
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "de1bd834-612c-4954-b97c-d29cf347b1d9",
+   "name": "Notify agent",
+   "type": "n8n-nodes-base.telegram",
+   "typeVersion": 1.2,
+   "position": [
+    1980,
+    320
+   ],
+   "parameters": {
+    "chatId": "={{ $('Assign agent').first().json.agent_chat }}",
+    "text": "=🏠 عميل جديد — {{ $('Assign agent').first().json.project }}\nالاسم: {{ $('Assign agent').first().json.name }}\nالموبايل: {{ $('Assign agent').first().json.phone }}\nالوحدة: {{ $('Assign agent').first().json.unit }}\nالميزانية: {{ $('Assign agent').first().json.budget }}\nأنسب وقت: {{ $('Assign agent').first().json.contact_time }}\nكلّمه خلال ١٥ دقيقة.",
+    "additionalFields": {}
+   }
+  }
+ ],
+ "connections": {
+  "Lead webhook": {
+   "main": [
+    [
+     {
+      "node": "Normalize & validate",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Normalize & validate": {
+   "main": [
+    [
+     {
+      "node": "Valid?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Valid?": {
+   "main": [
+    [
+     {
+      "node": "Reply 200",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Reply 400",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Reply 200": {
+   "main": [
+    [
+     {
+      "node": "Find by phone",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Find by phone": {
+   "main": [
+    [
+     {
+      "node": "Already a lead?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Already a lead?": {
+   "main": [
+    [
+     {
+      "node": "Log repeat request",
+      "type": "main",
+      "index": 0
+     }
+    ],
+    [
+     {
+      "node": "Count leads",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Count leads": {
+   "main": [
+    [
+     {
+      "node": "Assign agent",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Assign agent": {
+   "main": [
+    [
+     {
+      "node": "Add to CRM",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "Add to CRM": {
+   "main": [
+    [
+     {
+      "node": "Notify agent",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "executionOrder": "v1",
+  "saveDataErrorExecution": "all"
+ },
+ "pinData": {},
+ "meta": {
+  "templateCredsSetupCompleted": false
+ },
+ "active": false
+}
