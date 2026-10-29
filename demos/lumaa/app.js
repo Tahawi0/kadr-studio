@@ -1,11 +1,12 @@
 (function () {
   "use strict";
-  const DOCTORS = [
+  const TYPE = new URLSearchParams(location.search).get("t") === "salon" ? "salon" : "clinic";
+  let DOCTORS = [
     { id: "sara", name: "د. سارة منصور", role: "تجميل الأسنان" },
     { id: "karim", name: "د. كريم عادل", role: "تقويم الأسنان" },
     { id: "nour", name: "د. نور الهدى", role: "جلدية وتجميل" },
   ];
-  const SERVICES = [
+  let SERVICES = [
     { id: "consult", name: "كشف واستشارة", price: 300, doc: ["sara", "karim", "nour"] },
     { id: "clean", name: "تنظيف وتلميع", price: 800, doc: ["sara"] },
     { id: "white", name: "تبييض بالليزر", price: 3000, doc: ["sara"] },
@@ -15,11 +16,32 @@
     { id: "botox", name: "بوتوكس", price: 4500, doc: ["nour"] },
     { id: "facial", name: "هيدرافيشيال", price: 1800, doc: ["nour"] },
   ];
+  if (TYPE === "salon") {
+    DOCTORS = [
+      { id: "sara", name: "سارة", role: "شعر وصبغات" },
+      { id: "karim", name: "مي", role: "بشرة ومكياج" },
+      { id: "nour", name: "نور", role: "أظافر" },
+    ];
+    SERVICES = [
+      { id: "cut", name: "قص وسشوار", price: 450, doc: ["sara"] },
+      { id: "color", name: "صبغة كاملة", price: 1800, doc: ["sara"] },
+      { id: "protein", name: "بروتين", price: 2500, doc: ["sara"] },
+      { id: "facial", name: "تنظيف بشرة", price: 700, doc: ["karim"] },
+      { id: "makeup", name: "مكياج سهرة", price: 1500, doc: ["karim"] },
+      { id: "mani", name: "مانيكير وباديكير", price: 500, doc: ["nour"] },
+      { id: "gel", name: "جل أظافر", price: 600, doc: ["nour"] },
+    ];
+    const MAP = [["كل الأطباء", "كل الفريق"], ["اسم المريض", "اسم العميل"], ["للمريض", "للعميل"], ["المرضى", "العملاء"], ["المريض", "العميل"], ["مريض", "عميل"], ["للطبيب", "للمختص"], ["الطبيب", "المختص"], ["إجازة العيادة", "إجازة الصالون"], ["وصلوا العيادة", "وصلوا الصالون"], ["لعيادة أسنان وتجميل", "لصالون تجميل"], ["تمت الزيارة", "تمت الخدمة"]];
+    const fix = (n) => { let t = n.nodeValue, o = t; MAP.forEach(([a, b]) => { t = t.split(a).join(b); }); if (t !== o) n.nodeValue = t; };
+    const walk = (root) => { const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) fix(n); };
+    new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => n.nodeType === 3 ? fix(n) : n.nodeType === 1 && walk(n)))).observe(document.body, { childList: true, subtree: true });
+    walk(document.body);
+  }
   const NAMES = ["منة أحمد", "يوسف خالد", "سلمى حسن", "عمر طارق", "ملك إبراهيم", "آدم سامح", "نادين وليد", "كريم ياسر", "فريدة شريف", "مالك عمرو", "هنا مصطفى", "زياد محمود", "جنى رامي", "علي حازم", "ليلى أيمن", "سيف الدين نبيل", "رنا عاطف", "حمزة فؤاد"];
   const SLOTS = []; for (let h = 12; h <= 20; h++) { SLOTS.push(pad(h) + ":00"); SLOTS.push(pad(h) + ":30"); }
-  const KEY = "lumaa-demo-v2";
+  const KEY = "lumaa-demo-v2" + (TYPE === "salon" ? "-salon" : "");
   const BR = window.KADR_NAME || "لُمعة";
-  const CLINIC = /^(عيادة|مركز)/.test(BR) ? BR : "عيادة " + BR;
+  const CLINIC = TYPE === "salon" || /^(عيادة|مركز)/.test(BR) ? BR : "عيادة " + BR;
   const ar = (n) => Number(n).toLocaleString("ar-EG");
   const DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
   const STATUS = { pending: "في انتظار التأكيد", confirmed: "مؤكد", arrived: "وصل", done: "تمت الزيارة", cancelled: "ملغي" };
@@ -73,7 +95,7 @@
     review: (a) => `شكرًا لزيارتكم ${CLINIC} اليوم يا ${a.name.split(" ")[0]}. يسعدنا تقييم تجربتكم في دقيقة واحدة من خلال الرابط: [رابط التقييم]`,
     cancel: (a) => `تم إلغاء موعدكم يوم ${dayLabel(a.date)} الساعة ${time12(a.time)}. يسعدنا تحديد موعد جديد لكم في أي وقت بالرد على هذه الرسالة.`,
   };
-  const KIND = { confirm: "تأكيد حجز", remind: "تذكير قبل ٢٤ ساعة", review: "طلب تقييم", cancel: "إلغاء", reply: "رد المريض" };
+  const KIND = { confirm: "تأكيد حجز", remind: "تذكير قبل ٢٤ ساعة", review: "طلب تقييم", cancel: "إلغاء", reply: TYPE === "salon" ? "رد العميل" : "رد المريض" };
   function send(kind, a, inbound) {
     const text = inbound || T[kind](a);
     const now = new Date();
@@ -162,7 +184,7 @@
       ${node(790, 154, 210, "مؤقّت n8n", "Cron · كل ساعة", "#ebe5d9")}${arrow(788, 186, 712, 186)}
       ${node(500, 154, 210, "مواعيد بعد ٢٤ ساعة", "فلترة من جدول الحجوزات")}${arrow(498, 186, 422, 186)}
       ${node(210, 154, 210, "تذكير واتساب", "بأزرار: تأكيد / تأجيل", "#e2ecdf")}${arrow(208, 186, 132, 186)}
-      ${node(10, 154, 120, "رد المريض", "تحديث الحالة", "#f3ead7")}
+      ${node(10, 154, 120, TYPE === "salon" ? "رد العميل" : "رد المريض", "تحديث الحالة", "#f3ead7")}
       ${lane(262, "بعد الزيارة")}
       ${node(790, 274, 210, "الزيارة خلصت", "الاستقبال يغيّر الحالة", "#ebe5d9")}${arrow(788, 306, 712, 306)}
       ${node(500, 274, 210, "انتظار ساعتين", "Wait node")}${arrow(498, 306, 422, 306)}
