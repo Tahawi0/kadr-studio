@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>رأيك في شغلنا — Kadr Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3efe7;--card:#fbf9f5;--ink:#151412;--mu:#6d685e;--line:#e2dbcd;--ac:#d9481f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"Readex Pro",system-ui,sans-serif;font-size:16px;line-height:1.7;padding:32px 16px 60px}
+.wrap{max-width:640px;margin:0 auto;display:grid;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.15em;direction:ltr;justify-content:flex-end}
+.mk{position:relative;width:34px;height:34px;display:grid;place-items:center;font-size:20px}
+.mk i{position:absolute;width:10px;height:10px;border:0 solid var(--ac)}
+.mk i:nth-child(1){top:0;left:0;border-top-width:2px;border-left-width:2px}.mk i:nth-child(2){top:0;right:0;border-top-width:2px;border-right-width:2px}.mk i:nth-child(3){bottom:0;left:0;border-bottom-width:2px;border-left-width:2px}.mk i:nth-child(4){bottom:0;right:0;border-bottom-width:2px;border-right-width:2px}
+h1{font-size:clamp(26px,6vw,36px);line-height:1.3}
+.lede{color:var(--mu)}
+form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:18px}
+label{display:grid;gap:6px;font-weight:500}
+label small{font-weight:400;color:var(--mu);font-size:13px}
+input,select,textarea{font:inherit;color:inherit;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ac);outline-offset:1px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stars{display:flex;gap:6px;direction:ltr;justify-content:flex-end}
+.stars button{background:none;border:0;font-size:30px;line-height:1;color:#d4ccbd;cursor:pointer;padding:2px}
+.stars button.on{color:var(--ac)}
+fieldset{border:0;display:grid;gap:8px}
+legend{font-weight:500;margin-bottom:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.opt input{width:auto;margin-top:6px}
+.btn{background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:14px 20px;font:600 16px "Readex Pro";cursor:pointer}
+.err{color:#a3301a;font-size:14px}
+.note{font-size:13px;color:var(--mu)}
+@media(max-width:520px){.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo"><span>KADR</span><span class="mk"><i></i><i></i><i></i><i></i>K</span></div>
+  <h1>رأيك في شغلنا يفرق معانا</h1>
+  <p class="lede">دقيقتين بس. إجاباتك بتوصلنا على واتساب، وبنستخدمها نحسّن شغلنا. ولو وافقت، بننشر رأيك على موقعنا بالشكل اللي تختاره.</p>
+  <form id="f" novalidate>
+    <div class="row2">
+      <label>اسمك<input name="name" required autocomplete="name"></label>
+      <label>اسم النشاط<input name="biz" required></label>
+    </div>
+    <label>الخدمة اللي عملناها لك
+      <select name="svc" required>
+        <option value="">اختار</option>
+        <option>صور منتجات</option><option>فيديو أو ريلز</option><option>إعلان UGC</option><option>هوية بصرية</option>
+        <option>تصميم سوشيال</option><option>إدارة إعلانات ممولة</option><option>إدارة سوشيال ميديا</option>
+        <option>صفحة هبوط أو موقع</option><option>نظام حجز أو اشتراكات</option><option>أتمتة</option><option>تطبيق أندرويد</option>
+      </select>
+    </label>
+    <label>كانت إيه المشكلة قبل ما تشتغل معانا؟<textarea name="before" placeholder="مثلًا: صورنا كانت موبايل والصفحة شكلها مش موحّد"></textarea></label>
+    <label>إيه اللي اتغيّر بعدها؟ <small>لو عندك رقم (رسايل، حجوزات، مبيعات) اكتبه، ولو مفيش رقم عادي.</small><textarea name="after" placeholder="مثلًا: الرسايل زادت من ٥ لـ ١٥ في الأسبوع"></textarea></label>
+    <label>جملة واحدة عن تجربتك معانا<textarea name="quote" required placeholder="بكلامك إنت"></textarea></label>
+    <div><p style="font-weight:500;margin-bottom:6px">تقييمك</p><div class="stars" id="stars" role="radiogroup" aria-label="التقييم من ٥"></div></div>
+    <fieldset>
+      <legend>نقدر ننشر رأيك؟</legend>
+      <label class="opt"><input type="radio" name="pub" value="بالاسم واسم النشاط" checked> أيوه، باسمي واسم النشاط</label>
+      <label class="opt"><input type="radio" name="pub" value="باسم النشاط بس"> باسم النشاط بس</label>
+      <label class="opt"><input type="radio" name="pub" value="من غير أسماء"> من غير أي أسماء</label>
+      <label class="opt"><input type="radio" name="pub" value="لا، للاستخدام الداخلي بس"> لا، ده لكم بس</label>
+    </fieldset>
+    <p class="err" id="err" hidden></p>
+    <button class="btn" type="submit">ابعت رأيك على واتساب</button>
+    <p class="note">مش بنعدّل كلامك. لو احتجنا نختصره للنشر، بنرجعلك الأول.</p>
+  </form>
+</div>
+<script>
+(function(){
+  var WA="201555014697", rate=5, s=document.getElementById("stars");
+  for(var i=1;i<=5;i++){var b=document.createElement("button");b.type="button";b.textContent="★";b.dataset.v=i;b.setAttribute("aria-label",i+" من ٥");s.appendChild(b);}
+  function paint(){s.querySelectorAll("button").forEach(function(b){b.classList.toggle("on",+b.dataset.v<=rate);b.setAttribute("aria-checked",+b.dataset.v===rate);});}
+  s.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;rate=+b.dataset.v;paint();});paint();
+  var q=new URLSearchParams(location.search), f=document.getElementById("f");
+  if(q.get("svc"))[].forEach.call(f.svc.options,function(o){if(o.text===q.get("svc"))f.svc.value=o.text;});
+  if(q.get("biz"))f.biz.value=q.get("biz").slice(0,60);
+  f.addEventListener("submit",function(e){
+    e.preventDefault();var err=document.getElementById("err");
+    if(!f.name.value.trim()||!f.biz.value.trim()||!f.svc.value||!f.quote.value.trim()){err.textContent="من فضلك اكتب اسمك واسم النشاط والخدمة وجملة عن تجربتك.";err.hidden=false;return;}
+    err.hidden=true;
+    var msg="رأي عميل — Kadr Studio\nالاسم: "+f.name.value.trim()+"\nالنشاط: "+f.biz.value.trim()+"\nالخدمة: "+f.svc.value+"\nالتقييم: "+rate+"/5\nقبل: "+(f.before.value.trim()||"—")+"\nبعد: "+(f.after.value.trim()||"—")+"\nرأيه: "+f.quote.value.trim()+"\nالنشر: "+f.pub.value;
+    window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank","noopener");
+  });
+})();
+</script>
+</body>
+</html>
