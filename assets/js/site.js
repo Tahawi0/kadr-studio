@@ -1,4 +1,18 @@
 (function () {
+  // Navigation: dropdowns (click/keyboard) + mobile menu
+  const navEl = document.querySelector(".nav"), burger = document.querySelector(".burger");
+  document.querySelectorAll(".dd-btn").forEach((b) => b.addEventListener("click", (e) => {
+    e.stopPropagation(); const d = b.parentElement, open = !d.classList.contains("open");
+    document.querySelectorAll(".dd.open").forEach((x) => { x.classList.remove("open"); x.firstElementChild.setAttribute("aria-expanded", "false"); });
+    d.classList.toggle("open", open); b.setAttribute("aria-expanded", String(open));
+  }));
+  document.addEventListener("click", (e) => { if (!e.target.closest(".dd")) document.querySelectorAll(".dd.open").forEach((x) => { x.classList.remove("open"); x.firstElementChild.setAttribute("aria-expanded", "false"); }); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") { document.querySelectorAll(".dd.open").forEach((x) => x.classList.remove("open")); if (navEl && navEl.classList.contains("open")) burger.click(); } });
+  if (burger) burger.addEventListener("click", () => { const o = navEl.classList.toggle("open"); burger.setAttribute("aria-expanded", String(o)); document.body.classList.toggle("menu-open", o); });
+  document.querySelectorAll(".links a").forEach((a) => a.addEventListener("click", () => { if (navEl.classList.contains("open")) burger.click(); }));
+})();
+
+(function () {
   const K = window.KADR || {}, ar = K.lang === "ar";
   const wa = (msg) => "https://wa.me/" + K.wa + "?text=" + encodeURIComponent(msg);
 
@@ -114,4 +128,23 @@
     send.href = wa(msg); send.target = "_blank"; send.rel = "noopener";
   }
   order.addEventListener("input", update); order.addEventListener("change", update); update();
+})();
+
+/* ---- work page filters ---- */
+(function () {
+  const grid = document.getElementById("wGrid"); if (!grid) return;
+  const st = { sector: "", svc: "" };
+  const fromHash = new URLSearchParams(location.hash.slice(1));
+  ["sector", "svc"].forEach((k) => { if (fromHash.get(k)) st[k] = fromHash.get(k); });
+  function apply() {
+    let n = 0;
+    grid.querySelectorAll(".w-card").forEach((c) => {
+      const ok = (!st.sector || c.dataset.sector === st.sector) && (!st.svc || c.dataset.svc.split(" ").includes(st.svc));
+      c.hidden = !ok; if (ok) { n++; c.classList.add("in"); }
+    });
+    document.getElementById("wEmpty").hidden = n > 0;
+    document.querySelectorAll(".w-filters .chip").forEach((b) => b.classList.toggle("on", st[b.dataset.f] === b.dataset.v));
+  }
+  document.querySelectorAll(".w-filters .chip").forEach((b) => b.addEventListener("click", () => { st[b.dataset.f] = b.dataset.v; apply(); }));
+  apply();
 })();
