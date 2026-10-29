@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نبض — نظام الاشتراكات (نسخة تجريبية)</title>
+<meta name="description" content="نظام اشتراكات وحضور وتذكير بالتجديد على واتساب — ديمو تفاعلي من Kadr Studio ببيانات وهمية.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--pri:#1d3b34;--pri2:#2b5248;--acc:#e8a33d;--bg:#f4f2ee;--card:#fff;--ink:#1d211f;--mu:#6c726e;--line:#e3e0d9;--ok:#3f7d4e;--warn:#b7791f;--bad:#b04a3c;--r:10px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Readex Pro",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer}
+.demo-bar{background:var(--acc);color:#1d1a14;text-align:center;font-size:13px;padding:6px 12px}
+.demo-bar a{font-weight:600;color:inherit}
+.demo-bar button{background:#1d1a14;color:#fff;border:0;border-radius:999px;padding:2px 12px;margin-inline-start:8px;font-size:12px}
+.app{display:grid;grid-template-columns:220px 1fr 320px;min-height:calc(100vh - 34px)}
+.side{background:var(--pri);color:#fff;padding:24px 14px;display:flex;flex-direction:column;gap:26px;position:sticky;top:0;height:calc(100vh - 34px)}
+.brand{display:flex;align-items:center;gap:10px;padding-inline:6px}
+.mark{width:40px;height:40px;border-radius:12px;background:var(--acc);color:#1d1a14;display:grid;place-items:center;font-weight:700;font-size:20px;flex:none}
+.brand b{display:block;font-size:20px;line-height:1.2}.brand small{opacity:.7;font-size:12px}
+.tabs{display:flex;flex-direction:column;gap:4px}
+.tab{background:none;border:0;text-align:start;padding:10px 12px;border-radius:var(--r);color:rgba(255,255,255,.75)}
+.tab:hover{background:var(--pri2);color:#fff}.tab.on{background:#fff;color:var(--pri);font-weight:600}
+.new{margin-top:auto;background:var(--acc);color:#1d1a14;border:0;border-radius:999px;padding:12px;font-weight:600}
+.main{padding:30px 34px 60px;min-width:0}
+.view{display:none}.view.on{display:block}
+.vh{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+h1{font-size:30px;font-weight:700;color:var(--pri);line-height:1.3}.vh p{color:var(--mu)}
+h2{font-size:19px;font-weight:600;color:var(--pri);margin:30px 0 12px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:var(--card);border-radius:var(--r);padding:16px 18px;border:1px solid var(--line)}
+.kpi b{display:block;font-size:28px;font-weight:700;color:var(--pri);line-height:1.2}.kpi span{color:var(--mu);font-size:13px}
+.kpi.warn{border-color:var(--warn)}.kpi.bad{border-color:var(--bad)}
+.list{display:flex;flex-direction:column;gap:8px}
+.row{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-inline-start:4px solid var(--ok);border-radius:var(--r);padding:12px 16px}
+.row.soon{border-inline-start-color:var(--warn)}.row.over{border-inline-start-color:var(--bad)}
+.row b{font-weight:600}.row small{display:block;color:var(--mu);font-size:13px}
+.pill{font-size:12px;border-radius:999px;padding:2px 10px;background:#eef3ef;color:var(--ok);white-space:nowrap}
+.pill.soon{background:#fbf1e1;color:var(--warn)}.pill.over{background:#f8e7e4;color:var(--bad)}
+.acts{display:flex;gap:6px}
+.b{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px;font-size:13px}
+.b.p{background:var(--pri);color:#fff;border-color:var(--pri)}
+.b:disabled{opacity:.5;cursor:default}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 14px;font-size:13px}.chip.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+input,select{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.step b{display:block;color:var(--pri)}.step p{color:var(--mu);font-size:13.5px}
+.log{display:flex;flex-direction:column;gap:6px}
+.log div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13.5px;display:flex;justify-content:space-between;gap:10px}
+.log span{color:var(--mu);white-space:nowrap}
+.phone-col{background:#ebe8e1;padding:26px 18px;position:sticky;top:0;height:calc(100vh - 34px)}
+.phone{background:#e5ddd5;border:10px solid #1c1c1c;border-radius:34px;height:calc(100% - 40px);display:flex;flex-direction:column;overflow:hidden}
+.ph-top{background:var(--pri);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.ph-av{width:34px;height:34px;border-radius:50%;background:var(--acc);color:#1d1a14;display:grid;place-items:center;font-weight:700}
+.ph-top small{display:block;opacity:.75;font-size:11px}
+.ph-body{flex:1;overflow-y:auto;padding:14px 10px;display:flex;flex-direction:column;gap:8px}
+.bub{background:#fff;border-radius:10px;padding:8px 10px;font-size:13.5px;max-width:92%;align-self:flex-start;box-shadow:0 1px 1px rgba(0,0,0,.08);white-space:pre-line}
+.bub em{display:inline-block;font-style:normal;font-size:11px;background:#eee;border-radius:4px;padding:0 6px;margin-bottom:4px}
+.bub.in{align-self:flex-end;background:#dcf8c6}
+.ph-cap{color:var(--mu);font-size:12px;text-align:center;margin-top:8px}
+dialog{border:0;border-radius:14px;padding:0;max-width:440px;width:92vw}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+.sheet{padding:20px;display:grid;gap:12px}.sheet header{display:flex;justify-content:space-between;align-items:center}
+.sheet label{display:grid;gap:4px;font-size:13px;color:var(--mu)}
+.x{background:none;border:0;font-size:24px;line-height:1}
+.primary{background:var(--pri);color:#fff;border:0;border-radius:999px;padding:12px;font-weight:600}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:var(--r);padding:20px;text-align:center;color:var(--mu)}
+@media (max-width:1100px){.app{grid-template-columns:200px 1fr}.phone-col{display:none}}
+@media (max-width:760px){.app{display:block}.side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;gap:10px;padding:12px}.tabs{flex-direction:row;flex-wrap:wrap}.new{margin:0}.main{padding:20px 16px}.kpis{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}.flow{grid-template-columns:1fr}}
+</style>
+<script>
+(function(){
+  var t=new URLSearchParams(location.search).get("t")==="edu"?"edu":"gym";
+  window.MTYPE=t;
+  var brand=t==="edu"?"براعم":"نبض";
+  window.KADR_DEMO={brand:brand,replace:[brand],colorVars:["--pri"],initials:[".mark",".ph-av"],onColor:function(c){document.documentElement.style.setProperty("--pri2","color-mix(in srgb,"+c+" 80%,#fff)")}};
+})();
+</script>
+<script src="../personalize.js"></script>
+</head>
+<body>
+<div class="demo-bar">نسخة تجريبية من <a href="../../tech.html">Kadr Studio</a> — كل الأسماء والأرقام وهمية، والبيانات بتتحفظ على جهازك بس. <button id="resetBtn" type="button">إعادة البيانات</button></div>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="mark" id="mark"></span><div><b id="brandName"></b><small id="brandSub"></small></div></div>
+    <nav class="tabs">
+      <button class="tab on" data-v="dash">اللوحة</button>
+      <button class="tab" data-v="people" id="tPeople"></button>
+      <button class="tab" data-v="auto">الأتمتة والرسائل</button>
+    </nav>
+    <button class="new" id="newBtn" type="button"></button>
+  </aside>
+  <main class="main">
+    <section class="view on" id="v-dash">
+      <header class="vh"><div><h1>النهارده</h1><p id="dDate"></p></div></header>
+      <div class="kpis" id="kpis"></div>
+      <h2 id="hSoon"></h2>
+      <div class="list" id="soonList"></div>
+      <h2 id="hToday"></h2>
+      <div class="list" id="todayList"></div>
+    </section>
+    <section class="view" id="v-people">
+      <header class="vh"><div><h1 id="pTitle"></h1><p id="pSub"></p></div>
+        <input id="q" type="search" placeholder="ابحث بالاسم أو الرقم"></header>
+      <div class="filters" id="fChips" style="margin-bottom:12px"></div>
+      <div class="list" id="pList"></div>
+    </section>
+    <section class="view" id="v-auto">
+      <header class="vh"><div><h1>الأتمتة والرسائل</h1><p>الرسايل دي بتتبعت لوحدها على واتساب بزنس، من غير ما حد من الاستقبال يفتكرها.</p></div></header>
+      <div class="flow" id="flow"></div>
+      <h2>آخر الرسائل اللي اتبعتت</h2>
+      <div class="log" id="log"></div>
+    </section>
+  </main>
+  <aside class="phone-col">
+    <div class="phone"><div class="ph-top"><span class="ph-av"></span><div><b id="phName"></b><small>حساب أعمال</small></div></div><div class="ph-body" id="chat"></div></div>
+    <p class="ph-cap" id="phCap"></p>
+  </aside>
+</div>
+<dialog id="dlg"><form method="dialog" class="sheet" id="form">
+  <header><h2 style="margin:0" id="fTitle"></h2><button class="x" value="cancel" formnovalidate aria-label="إغلاق">×</button></header>
+  <label id="lName"><span></span><input name="name" required></label>
+  <label id="lParent" hidden>اسم ولي الأمر<input name="parent"></label>
+  <label>رقم الواتساب<input name="phone" required inputmode="tel" pattern="01[0-9]{9}" placeholder="01xxxxxxxxx"></label>
+  <label id="lPlan"><span></span><select name="plan" id="fPlan"></select></label>
+  <button class="primary" value="save">احفظ وابعت رسالة ترحيب</button>
+</form></dialog>
+<script>
+(function(){
+"use strict";
+const T=window.MTYPE, BR=window.KADR_NAME||(T==="edu"?"براعم":"نبض");
+const C=T==="edu"?{
+  sub:"إدارة الحضانة",people:"الأطفال",person:"الطفل",new:"+ تسجيل طفل",pSub:"كل طفل بمصاريفه وحضوره وولي أمره.",
+  plans:[{id:"m",name:"اشتراك شهري",days:30,price:2800},{id:"t",name:"ترم كامل",days:120,price:10500},{id:"h",name:"نص يوم شهري",days:30,price:1800}],
+  names:["ياسين أحمد","ليلى محمود","آدم شريف","مريم خالد","عمر وليد","فريدة سامح","يوسف هشام","جنى طارق","مالك عمرو","هنا مصطفى","علي حازم","سلمى رامي","سيف نبيل","تاليا أيمن"],
+  parents:["أم ياسين","أم ليلى","أبو آدم","أم مريم","أم عمر","أم فريدة","أبو يوسف","أم جنى","أم مالك","أم هنا","أبو علي","أم سلمى","أبو سيف","أم تاليا"],
+  hSoon:"مصاريف قرب ميعادها أو متأخرة",hToday:"حضور النهارده",check:"وصل",checked:"وصل ✓",due:"المصاريف",
+  k:["طفل مسجّل","مصاريف خلال ٧ أيام","مصاريف متأخرة","حضروا النهارده"],
+  welcome:(m)=>`أهلًا بيكم في ${BR}. تم تسجيل ${m.name} في «${plan(m.plan).name}». هنبعتلكم هنا تحديثات يومية وتذكير بالمصاريف قبل ميعادها. نورتونا.`,
+  remind:(m)=>`تذكير من ${BR}: مصاريف ${m.name} («${plan(m.plan).name}») ميعادها ${dayLabel(m.end)}. ممكن الدفع في الحضانة أو بإنستاباي. شكرًا لكم.`,
+  late:(m)=>`ولي أمر ${m.name} الكريم، مصاريف «${plan(m.plan).name}» كان ميعادها ${dayLabel(m.end)}. يُرجى التواصل معنا لو محتاجين أي ترتيب. شكرًا لتفهمكم.`,
+  arrive:(m)=>`صباح الخير، ${m.name} وصل ${BR} الساعة ${clock()} بالسلامة.`,
+  flow:[["عند التسجيل","رسالة ترحيب لولي الأمر بتفاصيل الاشتراك."],["كل صبح","رسالة لولي الأمر أول ما الطفل يوصل."],["قبل المصاريف بـ٣ أيام","تذكير بالمصاريف وطريقة الدفع."],["يوم الاستحقاق","تذكير تاني لو ما اتدفعش."],["بعد ٥ أيام تأخير","رسالة لطيفة للإدارة وولي الأمر."],["آخر الشهر","تقرير بسيط عن الحضور يتبعت لكل ولي أمر."]]
+}:{
+  sub:"لوحة الاستقبال",people:"الأعضاء",person:"العضو",new:"+ اشتراك جديد",pSub:"كل عضو باشتراكه وآخر حضور.",
+  plans:[{id:"m",name:"شهر",days:30,price:900},{id:"q",name:"٣ شهور",days:90,price:2400},{id:"y",name:"سنة",days:365,price:7500},{id:"pt",name:"برايفت ١٢ حصة",days:45,price:4200}],
+  names:["محمد سامي","كريم عادل","نور الهدى","يوسف خالد","سارة منصور","عمر طارق","ملك إبراهيم","زياد محمود","رنا عاطف","حمزة فؤاد","مي حسن","أحمد رضا","ليلى أيمن","مصطفى نبيل","هدى شريف","سيف الدين"],
+  hSoon:"اشتراكات قربت تخلص أو خلصت",hToday:"حضور النهارده",check:"تسجيل دخول",checked:"دخل ✓",due:"الاشتراك",
+  k:["عضو نشط","بيخلص خلال ٧ أيام","خلص ومجددش","دخلوا النهارده"],
+  welcome:(m)=>`أهلًا بيك في ${BR} يا ${first(m.name)}. اشتراكك «${plan(m.plan).name}» شغال لحد ${dayLabel(m.end)}. أي سؤال ابعتلنا هنا.`,
+  remind:(m)=>`أهلًا يا ${first(m.name)}، اشتراكك في ${BR} بيخلص ${dayLabel(m.end)}. تحب نجدده لك؟ رد بكلمة «جدد» وهنكلمك.`,
+  late:(m)=>`وحشتنا يا ${first(m.name)}. اشتراكك في ${BR} خلص ${dayLabel(m.end)}. لو جددت الأسبوع ده ليك ٥ أيام زيادة هدية.`,
+  arrive:(m)=>`أهلًا يا ${first(m.name)}، اتسجل دخولك الساعة ${clock()}. تمرين موفّق.`,
+  flow:[["عند الاشتراك","رسالة ترحيب فيها مدة الاشتراك والمواعيد."],["قبل النهاية بـ٧ أيام","تذكير بالتجديد مع زرار رد سريع."],["يوم النهاية","تذكير تاني لو ما جددش."],["بعد ١٠ أيام","عرض رجوع للي اشتراكه خلص."],["غياب ١٤ يوم","رسالة «وحشتنا» قبل ما العضو يقرر يسيب."],["كل ليلة","تقرير الدخل والتجديدات للإدارة."]]
+};
+const $=(id)=>document.getElementById(id);
+const ar=(n)=>Number(n).toLocaleString("ar-EG");
+const pad=(n)=>String(n).padStart(2,"0");
+const iso=(d)=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const add=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const fromIso=(s)=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const DAYS=["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const dayLabel=(s)=>{const d=fromIso(s);return DAYS[d.getDay()]+" "+ar(d.getDate())+"/"+ar(d.getMonth()+1)};
+const clock=()=>{const d=new Date();let h=d.getHours();const pm=h>=12;h=h%12||12;return ar(h)+":"+ar(pad(d.getMinutes())).padStart(2,"٠")+(pm?" م":" ص")};
+const first=(n)=>n.split(" ")[0];
+const plan=(id)=>C.plans.find(p=>p.id===id)||C.plans[0];
+const daysLeft=(m)=>Math.round((fromIso(m.end)-fromIso(iso(new Date())))/864e5);
+const state=(m)=>{const d=daysLeft(m);return d<0?"over":d<=7?"soon":"ok"};
+const KEY="kadr-members-"+T+"-"+BR;
+const esc=(s)=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function phoneFor(i){return "01"+["0","1","2","5"][i%4]+String(10000000+((i*7919)%89999999)).slice(0,8)}
+
+let S=load()||seed();
+function load(){try{const v=JSON.parse(localStorage.getItem(KEY));return v&&v.day===iso(new Date())?v:null}catch(e){return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function seed(){
+  let r=7;const rnd=()=>(r=(r*16807)%2147483647)/2147483647;const today=new Date();
+  const offs=[-6,-2,1,3,5,9,14,20,26,33,47,60,75,2,-12,40];
+  const members=C.names.map((n,i)=>{const p=C.plans[Math.floor(rnd()*C.plans.length)];const off=offs[i%offs.length];
+    return{id:i+1,name:n,parent:C.parents?C.parents[i]:"",phone:phoneFor(i),plan:p.id,end:iso(add(today,off)),reminded:false,inToday:rnd()<.35}});
+  return{day:iso(today),members,log:[],chat:[]};
+}
+function send(m,kind,text){
+  S.chat.push({text,kind});S.chat=S.chat.slice(-12);
+  S.log.unshift({to:(m.parent||m.name),kind,at:clock()});S.log=S.log.slice(0,15);save();renderChat();renderLog();
+}
+const KIND={welcome:"ترحيب",remind:"تذكير",late:"متأخر",arrive:"حضور"};
+
+function row(m,withCheck){
+  const st=state(m),d=daysLeft(m);
+  const lbl=st==="over"?`متأخر ${ar(-d)} يوم`:st==="soon"?(d===0?"النهارده":`باقي ${ar(d)} يوم`):`لحد ${dayLabel(m.end)}`;
+  const btn=st==="ok"?"":`<button class="b p" data-act="${st==="over"?"late":"remind"}" data-id="${m.id}"${m.reminded?" disabled":""}>${m.reminded?"اتبعت ✓":"ابعت تذكير"}</button>`;
+  const chk=withCheck?`<button class="b" data-act="arrive" data-id="${m.id}"${m.inToday?" disabled":""}>${m.inToday?C.checked:C.check}</button>`:"";
+  return `<div class="row ${st==="ok"?"":st}"><div><b>${esc(m.name)}</b><small>${m.parent?esc(m.parent)+" · ":""}${plan(m.plan).name} · ${ar(plan(m.plan).price)} جنيه · <span dir="ltr">${m.phone}</span></small></div><span class="pill ${st==="ok"?"":st}">${C.due}: ${lbl}</span><div class="acts">${btn}${chk}</div></div>`;
+}
+function renderDash(){
+  const ms=S.members,act=ms.filter(m=>state(m)!=="over");
+  const vals=[act.length,ms.filter(m=>state(m)==="soon").length,ms.filter(m=>state(m)==="over").length,ms.filter(m=>m.inToday).length];
+  $("kpis").innerHTML=C.k.map((k,i)=>`<div class="kpi${i===1?" warn":i===2?" bad":""}"><b>${ar(vals[i])}</b><span>${k}</span></div>`).join("");
+  const soon=ms.filter(m=>state(m)!=="ok").sort((a,b)=>daysLeft(a)-daysLeft(b));
+  $("soonList").innerHTML=soon.length?soon.map(m=>row(m,false)).join(""):`<div class="empty">مفيش حاجة متأخرة. كله تمام.</div>`;
+  const tod=ms.filter(m=>state(m)!=="over");
+  $("todayList").innerHTML=tod.map(m=>row(m,true)).join("");
+}
+let filt="";
+function renderPeople(){
+  const q=$("q").value.trim();
+  const rows=S.members.filter(m=>(!filt||state(m)===filt)&&(!q||(m.name+m.phone+(m.parent||"")).includes(q)));
+  $("pList").innerHTML=rows.length?rows.map(m=>row(m,false)).join(""):`<div class="empty">مفيش نتايج.</div>`;
+}
+function renderChat(){
+  const c=S.chat.length?S.chat:[{text:"اضغط «ابعت تذكير» أو «"+C.check+"» وشوف الرسالة اللي بتوصل هنا.",kind:"جاهز"}];
+  $("chat").innerHTML=c.map(x=>`<div class="bub"><em>${KIND[x.kind]||x.kind}</em><br>${esc(x.text)}</div>`).join("");
+  $("chat").scrollTop=1e6;
+}
+function renderLog(){$("log").innerHTML=S.log.length?S.log.map(l=>`<div>${KIND[l.kind]} ← ${esc(l.to)}<span>${l.at}</span></div>`).join(""):`<div>لسه مفيش رسايل النهارده.<span></span></div>`}
+function renderAll(){renderDash();renderPeople();renderChat();renderLog()}
+
+// static labels
+document.title=BR+" — "+(T==="edu"?"نظام الحضانة":"نظام الاشتراكات")+" (نسخة تجريبية)";
+$("brandName").textContent=BR;$("brandSub").textContent=C.sub;$("phName").textContent=BR;
+document.querySelectorAll(".mark,.ph-av").forEach(e=>{if(!e.textContent)e.textContent=BR.replace(/^((جيم|حضانة|سنتر|مركز|نادي)\s*)+/,"").charAt(0)||BR.charAt(0)});
+$("tPeople").textContent=C.people;$("newBtn").textContent=C.new;$("pTitle").textContent=C.people;$("pSub").textContent=C.pSub;
+$("hSoon").textContent=C.hSoon;$("hToday").textContent=C.hToday;$("fTitle").textContent=C.new.replace("+ ","");
+$("lName").querySelector("span").textContent="اسم "+C.person;$("lPlan").querySelector("span").textContent="الاشتراك";
+$("lParent").hidden=T!=="edu";
+$("phCap").textContent="معاينة للرسايل اللي بتوصل "+(T==="edu"?"لولي الأمر":"للعضو")+" على واتساب تلقائيًا.";
+$("fPlan").innerHTML=C.plans.map(p=>`<option value="${p.id}">${p.name} · ${ar(p.price)} جنيه</option>`).join("");
+$("dDate").textContent=dayLabel(iso(new Date()));
+$("fChips").innerHTML=[["","الكل"],["ok","شغال"],["soon","قرب يخلص"],["over","متأخر"]].map(([k,v])=>`<button class="chip${k===""?" on":""}" data-f="${k}">${v}</button>`).join("");
+$("flow").innerHTML=C.flow.map(f=>`<div class="step"><b>${f[0]}</b><p>${f[1]}</p></div>`).join("");
+
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===t));document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+t.dataset.v))}));
+$("fChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filt=b.dataset.f;$("fChips").querySelectorAll(".chip").forEach(x=>x.classList.toggle("on",x===b));renderPeople()});
+$("q").addEventListener("input",renderPeople);
+document.querySelector(".main").addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b)return;const m=S.members.find(x=>x.id===+b.dataset.id);const a=b.dataset.act;
+  if(a==="arrive"){m.inToday=true;send(m,"arrive",C.arrive(m))}else{m.reminded=true;send(m,a,C[a](m))}
+  renderDash();renderPeople();
+});
+$("newBtn").addEventListener("click",()=>{$("form").reset();$("dlg").showModal()});
+$("form").addEventListener("submit",e=>{
+  if(e.submitter&&e.submitter.value!=="save")return;
+  const fd=new FormData($("form"));const p=plan(fd.get("plan"));
+  const m={id:Date.now(),name:fd.get("name").trim(),parent:(fd.get("parent")||"").trim(),phone:fd.get("phone"),plan:p.id,end:iso(add(new Date(),p.days)),reminded:false,inToday:false};
+  S.members.unshift(m);send(m,"welcome",C.welcome(m));renderDash();renderPeople();
+});
+$("resetBtn").addEventListener("click",()=>{S=seed();save();renderAll()});
+renderAll();
+})();
+</script>
+</body>
+</html>
