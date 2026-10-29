@@ -18,6 +18,8 @@
   const NAMES = ["منة أحمد", "يوسف خالد", "سلمى حسن", "عمر طارق", "ملك إبراهيم", "آدم سامح", "نادين وليد", "كريم ياسر", "فريدة شريف", "مالك عمرو", "هنا مصطفى", "زياد محمود", "جنى رامي", "علي حازم", "ليلى أيمن", "سيف الدين نبيل", "رنا عاطف", "حمزة فؤاد"];
   const SLOTS = []; for (let h = 12; h <= 20; h++) { SLOTS.push(pad(h) + ":00"); SLOTS.push(pad(h) + ":30"); }
   const KEY = "lumaa-demo-v2";
+  const BR = window.KADR_NAME || "لُمعة";
+  const CLINIC = /^(عيادة|مركز)/.test(BR) ? BR : "عيادة " + BR;
   const ar = (n) => Number(n).toLocaleString("ar-EG");
   const DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
   const STATUS = { pending: "في انتظار التأكيد", confirmed: "مؤكد", arrived: "وصل", done: "تمت الزيارة", cancelled: "ملغي" };
@@ -66,9 +68,9 @@
 
   // ---------- messages ----------
   const T = {
-    confirm: (a) => `مرحبًا ${a.name}، تم تسجيل موعدكم في عيادة لُمعة يوم ${dayLabel(a.date)} الساعة ${time12(a.time)} مع ${doc(a.doctor).name} لخدمة «${svc(a.service).name}». للتأجيل يُرجى الرد بكلمة «تأجيل».`,
-    remind: (a) => `تذكير من عيادة لُمعة: موعدكم ${dayLabel(a.date)} الساعة ${time12(a.time)} مع ${doc(a.doctor).name}. يُرجى الرد بـ «تأكيد» أو «تأجيل».`,
-    review: (a) => `شكرًا لزيارتكم عيادة لُمعة اليوم يا ${a.name.split(" ")[0]}. يسعدنا تقييم تجربتكم في دقيقة واحدة من خلال الرابط: [رابط التقييم]`,
+    confirm: (a) => `مرحبًا ${a.name}، تم تسجيل موعدكم في ${CLINIC} يوم ${dayLabel(a.date)} الساعة ${time12(a.time)} مع ${doc(a.doctor).name} لخدمة «${svc(a.service).name}». للتأجيل يُرجى الرد بكلمة «تأجيل».`,
+    remind: (a) => `تذكير من ${CLINIC}: موعدكم ${dayLabel(a.date)} الساعة ${time12(a.time)} مع ${doc(a.doctor).name}. يُرجى الرد بـ «تأكيد» أو «تأجيل».`,
+    review: (a) => `شكرًا لزيارتكم ${CLINIC} اليوم يا ${a.name.split(" ")[0]}. يسعدنا تقييم تجربتكم في دقيقة واحدة من خلال الرابط: [رابط التقييم]`,
     cancel: (a) => `تم إلغاء موعدكم يوم ${dayLabel(a.date)} الساعة ${time12(a.time)}. يسعدنا تحديد موعد جديد لكم في أي وقت بالرد على هذه الرسالة.`,
   };
   const KIND = { confirm: "تأكيد حجز", remind: "تذكير قبل ٢٤ ساعة", review: "طلب تقييم", cancel: "إلغاء", reply: "رد المريض" };

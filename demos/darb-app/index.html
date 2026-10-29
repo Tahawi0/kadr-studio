@@ -115,7 +115,7 @@ input[type=range]{width:100%;accent-color:var(--ac);margin-top:10px}
   <!-- 1 splash -->
   <section class="screen" id="s-splash">
     <div class="splash"><img src="img/splash.webp" alt=""><div class="grad"></div>
-      <div class="txt"><div class="row"><span class="mark">د</span><span style="font-size:20px;font-weight:300"><b style="font-weight:800">درب</b> موتورز</span></div>
+      <div class="txt"><div class="row"><span class="mark">د</span><span class="brandname" style="font-size:20px;font-weight:300"><b style="font-weight:800">درب</b> موتورز</span></div>
         <h1>عربيتك الجاية<br>في جيبك.</h1><p class="mu" style="margin-top:10px">تصفّح الموديلات، واحسب قسطك، واحجز تجربة قيادة من غير ما تتحرك.</p>
         <div class="dots"><i class="on"></i><i></i><i></i></div>
         <button class="btn pri" data-go="home">ابدأ</button></div></div>
@@ -193,6 +193,8 @@ input[type=range]{width:100%;accent-color:var(--ac);margin-top:10px}
   </nav>
 </div>
 </div>
+<script>window.KADR_DEMO={brand:"درب موتورز",replace:["درب موتورز"],colorVars:["--ac"],inkVar:"--ac-ink",bar:".note",initials:[".mark"],onName:function(n){document.querySelectorAll(".brandname").forEach(function(e){e.innerHTML="";var b=document.createElement("b");b.style.fontWeight="800";b.textContent=n;e.appendChild(b);});}};</script>
+<script src="../personalize.js"></script>
 <script>
 (function(){
   const Q=new URLSearchParams(location.search); if (Q.has("bare")) document.body.classList.add("bare"); if (Q.get("z")) document.body.style.zoom=Q.get("z");
