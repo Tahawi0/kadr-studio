@@ -304,7 +304,7 @@ html[lang="ar"] .fs-hero h1{font-size:clamp(36px,4.2vw,62px)}
 .fs-help{margin-top:40px;color:var(--muted)}
 .fs-help a{color:var(--accent);font-weight:500;text-decoration:underline}
 .sectors{padding-block:140px}
-.sec-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:48px}
+.sec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px}
 .sec-card{position:relative;display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;background:var(--dark)}
 .sec-card img{width:100%;height:100%;object-fit:cover;opacity:.82;transition:transform .5s ease,opacity .3s}
 .sec-card:hover img{transform:scale(1.05);opacity:.65}
@@ -362,7 +362,7 @@ html[lang="ar"] .order-out output,html[lang="ar"] .audit-out output{font-weight:
 .order-out ul{list-style:none;margin:18px 0 24px;display:grid;gap:6px;font-size:15px;color:var(--on-dark-2)}
 
 @media (max-width:980px){
-  .sec-grid{grid-template-columns:repeat(3,1fr)}
+  .sec-grid{grid-template-columns:repeat(4,1fr)}
   .audit-wrap,.order-wrap{grid-template-columns:1fr}
   .audit-out,.order-out{position:static}
   .tips{grid-template-columns:1fr 1fr}
@@ -453,3 +453,4 @@ html[lang="ar"] .page-hero:not([class*="p-"]) .wrap>h1{font-size:clamp(36px,4.6v
 @media (max-width:980px){.re-in{grid-template-columns:1fr}.re-in img{max-width:360px}}
 .re-band .re-in h2{font-size:clamp(22px,2.4vw,30px);line-height:1.35;margin:0 0 6px;font-weight:600}
 .re-band .re-new{color:#2b2622!important;opacity:1}
+.case-links{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:28px}.case-links .btn{margin-top:0}
