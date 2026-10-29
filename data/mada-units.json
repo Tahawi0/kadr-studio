@@ -1,0 +1,85 @@
+{
+ "project": {
+  "id": "mada-view",
+  "developer": "مدى للتطوير العقاري",
+  "name": "مدى ڤيو",
+  "location": "محور محمد بن زايد الجنوبي — بين التجمع الخامس والعاصمة الإدارية الجديدة",
+  "delivery": 2030,
+  "down_options": [
+   5,
+   10,
+   15,
+   20
+  ],
+  "years_options": [
+   5,
+   7,
+   8,
+   10
+  ],
+  "concept": true,
+  "note": "مشروع مفاهيمي من Kadr Studio. الأسعار والمساحات توضيحية مبنية على متوسطات السوق في أكتوبر ٢٠٢٦."
+ },
+ "units": [
+  {
+   "id": "apt2",
+   "type": "apartment",
+   "ar": "شقة غرفتين",
+   "en": "2-bed apartment",
+   "beds": 2,
+   "area": 125,
+   "land": null,
+   "price": 8900000,
+   "img": "mada-apts",
+   "phase": "المرحلة الأولى"
+  },
+  {
+   "id": "apt3",
+   "type": "apartment",
+   "ar": "شقة ٣ غرف",
+   "en": "3-bed apartment",
+   "beds": 3,
+   "area": 165,
+   "land": null,
+   "price": 11800000,
+   "img": "mada-interior",
+   "phase": "المرحلة الأولى"
+  },
+  {
+   "id": "duplex",
+   "type": "duplex",
+   "ar": "دوبلكس بحديقة",
+   "en": "Garden duplex",
+   "beds": 3,
+   "area": 215,
+   "land": null,
+   "price": 16200000,
+   "img": "mada-duplex",
+   "phase": "المرحلة الأولى"
+  },
+  {
+   "id": "twin",
+   "type": "twin",
+   "ar": "توين هاوس",
+   "en": "Twin house",
+   "beds": 4,
+   "area": 290,
+   "land": 350,
+   "price": 25500000,
+   "img": "mada-twin",
+   "phase": "المرحلة الثانية"
+  },
+  {
+   "id": "villa",
+   "type": "villa",
+   "ar": "فيلا مستقلة",
+   "en": "Standalone villa",
+   "beds": 5,
+   "area": 360,
+   "land": 520,
+   "price": 34500000,
+   "img": "mada-villa",
+   "phase": "المرحلة الثانية"
+  }
+ ]
+}
