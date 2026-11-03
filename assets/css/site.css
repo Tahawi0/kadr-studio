@@ -466,3 +466,7 @@ html[lang="ar"] .page-hero:not([class*="p-"]) .wrap>h1{font-size:clamp(36px,4.6v
 .vid-head{margin-bottom:22px}.vid-head h2{margin:0 0 6px}
 .vid-grid{display:grid;grid-template-columns:2.4fr 1fr;gap:20px;align-items:start}
 @media (max-width:860px){.vid-grid{grid-template-columns:1fr}.vert-fig{max-width:340px;margin-inline:auto}}
+.foot .social{display:inline-flex;gap:18px;align-items:center}
+.foot .social a{display:inline-flex;gap:6px;align-items:center;color:inherit;text-decoration:none;opacity:.85}
+.foot .social a:hover{opacity:1}
+.foot .social svg{width:18px;height:18px}
