@@ -454,3 +454,15 @@ html[lang="ar"] .page-hero:not([class*="p-"]) .wrap>h1{font-size:clamp(36px,4.6v
 .re-band .re-in h2{font-size:clamp(22px,2.4vw,30px);line-height:1.35;margin:0 0 6px;font-weight:600}
 .re-band .re-new{color:#2b2622!important;opacity:1}
 .case-links{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:28px}.case-links .btn{margin-top:0}
+.svc b.gp{text-align:end;white-space:nowrap}.svc b.gp small{display:block;font-weight:400;font-size:14px;color:var(--muted);margin-top:4px}
+.block .note{margin-top:24px;color:var(--muted);font-size:15px;max-width:760px}
+/* video showcase */
+.film-fig,.vert-fig{margin:0}
+.film{width:100%;aspect-ratio:16/9;border-radius:6px;background:#000;object-fit:cover}
+.vert-fig video{width:100%;aspect-ratio:9/16;border-radius:6px;background:#000;object-fit:cover}
+.film-fig figcaption,.vert-fig figcaption{font-size:13px;opacity:.75;margin-top:8px;line-height:1.6}
+.sec-work .film-fig{margin-bottom:20px}.sec-work .g-reels{margin-bottom:10px}
+.vid-band{padding-block:64px}
+.vid-head{margin-bottom:22px}.vid-head h2{margin:0 0 6px}
+.vid-grid{display:grid;grid-template-columns:2.4fr 1fr;gap:20px;align-items:start}
+@media (max-width:860px){.vid-grid{grid-template-columns:1fr}.vert-fig{max-width:340px;margin-inline:auto}}
