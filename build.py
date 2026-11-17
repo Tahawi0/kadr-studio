@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
-"""Static generator for Kadr Studio v2: Arabic at /, English at /en/."""
-import os, json
+"""Static generator for Kadr Studio v2: Arabic at /, English at /en/.
+
+RETIRED (Nov 2026). The HTML pages are now the source of truth: later work
+(dropdown nav, videos, social links, gulf/work/gyms/edu/real-estate pages and
+the v4 KADR identity) was made in the pages directly, and this script knows
+none of it. Running it would overwrite 26 pages with an older version and
+drop content. It refuses to run unless KADR_FORCE_LEGACY_BUILD=1 is set.
+"""
+import os, json, sys
+
+if os.environ.get("KADR_FORCE_LEGACY_BUILD") != "1":
+    sys.exit("build.py is retired: the HTML pages are the source of truth and this script "
+             "would overwrite them with an older version. See the note at the top of build.py.")
 
 WA = "201555014697"
 EMAIL = "kadr.studio6@gmail.com"
